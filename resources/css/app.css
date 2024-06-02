@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.text-color {
+    color: #A303A0;
+}
+
+.text-light {
+    color: #DF6951;
+}
+
+.bg-color {
+    background-color: #A303A0;
+}
+
+.decore {
+    background-image: url(/images/decore.png);
+    background-position: top right;
+    background-repeat: no-repeat;
+}
+
+.main {
+    background-image: url(/images/bg.png);
+    background-position: center right;
+    background-repeat: no-repeat;
+}
+
+/* @media screen and (max-width: 600px) {
+    .main {
+        background-image: none;
+    }
+} */
+
+@media screen and (min-width: 768px) {
+    .title {
+        color: #000;
+        font-family: Inter Tight;
+        font-size: 140px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: 7px;
+    }
+}
