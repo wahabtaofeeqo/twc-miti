@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
+            $table->integer('total')->unsigned()->default(0);
             $table->bigInteger('booker_id')->unsigned();
             $table->bigInteger('category_id')->references('id')->on('categories');
             $table->timestamps();

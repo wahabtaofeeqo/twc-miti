@@ -3,7 +3,7 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
-const Ticket = () => {
+const Ticket = ({categories = []}) => {
 
     const [tickets, setTickets] = useState<any>([]);
     const [isCheckout, setCheckout] = useState(false);
@@ -22,41 +22,8 @@ const Ticket = () => {
         invitees: []
     });
 
-    const ticketTypes = [
-        {
-            id: 1,
-            amount: 100,
-            name: 'Regular',
-            image: 'images/reg.jpeg'
-        },
-        {
-            id: 2,
-            amount: 100,
-            name: 'VIP',
-            image: 'images/vip.jpeg'
-        },
-        {
-            id: 3,
-            amount: 100,
-            name: 'Premium',
-            image: 'images/premium.jpeg'
-        },
-        {
-            id: 4,
-            amount: 100,
-            name: 'Silver',
-            image: 'images/silver.jpeg'
-        },
-        {
-            id: 5,
-            amount: 100,
-            name: 'Gold',
-            image: 'images/gold.jpeg'
-        }
-    ];
-
     const incrementTicket = (id: number) => {
-        let allTickets = [...tickets];
+        let allTickets: any = [...tickets];
         let index = allTickets.findIndex(item => item.model.id == id);
         let ticket = tickets[index];
         ticket.total = ticket.total + 1;
@@ -64,23 +31,27 @@ const Ticket = () => {
 
         //
         setTickets(allTickets);
+        setData('tickets', allTickets);
     }
 
     const decrementTicket = (id: number) => {
 
-        let allTickets = [...tickets];
+        let allTickets: any = [...tickets];
         let index = allTickets.findIndex(item => item.model.id == id);
         let ticket = tickets[index];
 
         if(ticket.total > 0) {
             ticket.total = ticket.total - 1;
             allTickets[index] = ticket;
+
+            //
             setTickets(allTickets);
+            setData('tickets', allTickets);
         }
     }
 
     const getTicket = (category: any) => {
-        let allTickets = [...tickets];
+        let allTickets: any = [...tickets];
         let ticket = allTickets.find(item => item.model.id == category.id);
         if(!ticket) { // Add Ticket
             ticket = {
@@ -97,6 +68,13 @@ const Ticket = () => {
 
     const onChange = (event: any) => {
         setData(event.target.name, event.target.value);
+    }
+
+    const onContinue = () => {
+        if(getTicketCount() == 0) {
+            toast.warn('You need to select a Ticket to book');
+        }
+        else setCheckout(true);
     }
 
     const addInvitee = () => {
@@ -175,7 +153,6 @@ const Ticket = () => {
         })
     }
 
-
     useEffect(() => {
         if(tickets.length) {
             setData({
@@ -217,8 +194,8 @@ const Ticket = () => {
                                     onUpdated={updateInvitee} invitees={invitees}></CheckoutForm>
 
                                 <div className='py-4 text-end flex gap-3 justify-end'>
-                                    <button type='button' className='bg-gray-100 p-2 px-3 rounded' onClick={() => setCheckout(false)}>Cancel</button>
-                                    <button className='bg-sky-500 text-white p-2 px-3 rounded w-48'>Pay now</button>
+                                    <button type='button' disabled={processing} className='bg-gray-100 p-2 px-3 rounded' onClick={() => setCheckout(false)}>Cancel</button>
+                                    <button disabled={processing} className='bg-sky-500 text-white p-2 px-3 rounded w-48'>Pay now</button>
                                 </div>
                             </form>
 
@@ -228,7 +205,7 @@ const Ticket = () => {
                     (
                         <div className="p-3">
                             {
-                                ticketTypes.map((item, index) => {
+                                categories.map((item: any, index: number) => {
                                     return (
                                         <div className="md:flex rounded border mb-10 gap-3 border-sky-500" key={index}>
                                             <div className="basis-3/5 p-3">
@@ -264,7 +241,7 @@ const Ticket = () => {
                     {
                         isCheckout
                         ? <div></div>
-                        : <button type='button' className='bg-sky-500 text-white p-2 px-3 rounded w-48' onClick={() => setCheckout(true)}>Continue</button>
+                        : <button type='button' className='bg-sky-500 text-white p-2 px-3 rounded w-48' onClick={onContinue}>Continue</button>
                     }
                 </div>
             </div>

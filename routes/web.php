@@ -5,17 +5,10 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
-
 Route::get('/', 'PagesController@index');
 Route::get('/tickets', 'PagesController@tickets');
+Route::post('/bookings', 'PaymentController@init');
+Route::get('/bookings/verification/{id}', 'PagesController@booked');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

@@ -34,7 +34,7 @@ class PaymentController extends Controller
         try {
             $randomUUID = Str::uuid();
             $baseUrl = config('app.url');
-            $reference = "SOL_" . Str::random(10) . time();
+            $reference = "Miti_" . Str::random(10) . time();
             $url = "https://api.paystack.co/transaction/initialize";
 
             //
@@ -44,7 +44,7 @@ class PaymentController extends Controller
                 'currency' => 'NGN',
                 'email' => $email,
                 'metadata' => $meta,
-                'callback_url' => $baseUrl . 'bookings/verification/' . $randomUUID
+                'callback_url' => $baseUrl . '/bookings/verification/' . $randomUUID
             ]);
 
             if ($response->successful())
@@ -61,10 +61,10 @@ class PaymentController extends Controller
     /**
      * Store user and Init payment
      */
-    public function initPayment(Request $request)
+    public function init(Request $request)
     {
         $input = $request->all();
-        $this->validate($request, [
+        $request->validate([
             'tickets' => 'array',
             'invitees' => 'array',
             'firstname' => 'required|string',
@@ -77,7 +77,6 @@ class PaymentController extends Controller
 
         $user = Auth::user();
         $amount = $input['amount'];
-        $event = Event::findOrFail($id);
 
         // Create Booker Model
         $name = $input['firstname'] . ' ' . $input['lastname'];
@@ -117,11 +116,13 @@ class PaymentController extends Controller
 
         // Store Tickets
         foreach ($tickets as $key => $value) {
-            Ticket::create([
-                'total' => $value['value'],
-                'booker_id' => $booker->id,
-                'category_id' => $value['model']['id']
-            ]);
+            if($value['total']) {
+                Ticket::create([
+                    'total' => $value['total'],
+                    'booker_id' => $booker->id,
+                    'category_id' => $value['model']['id']
+                ]);
+            }
         }
 
         $response = $this->createPayment($amount, $input['email'], $meta);
@@ -235,32 +236,46 @@ class PaymentController extends Controller
         $booker = $booking->booker;
         $this->sendMail($booker, $booking->category, $code);
 
-        if(!$isBeachBooking) {
+        // Get Tickets
+        $tickets = Ticket::where('booker_id', $booker->id)->get();
 
-            // Get Tickets
-            $tickets = Ticket::where('booker_id', $booker->id)->get();
+        // Get Invitees
+        $invitees = Invitee::where('inviter_id', $booker->id)->get();
 
-            // Get Invitees
-            $invitees = Invitee::where('inviter_id', $booker->id)->get();
-
-            // Send Mail to Invitees
-            foreach ($invitees as $key => $value) {
-
-                $user = $value->booker;
-                $code = $this->genCode();
-                $category = $tickets[0]->category;
-
-                $data['code'] = $code;
-                $data['confirmed'] = true;
-                $data['cost'] = 0; // Invitee
-                $data['booker_id'] = $user->id;
-                $data['category_id'] = $category->id;
-
-                Booking::create($data);
-
-                //
-                $this->sendMail($user, $category, $code);
+        // Prep total Ticket Category
+        $categories = [];
+        foreach ($tickets as $key => $ticket) {
+            if($ticket->total == 1) {
+                $categories[] = $ticket->category;
             }
+            else {
+                for ($i=0; $i < $ticket->total; $i++) { 
+                    $categories[] = $ticket->category;
+                }
+            }
+        }
+
+        // Remove the first Ticket from the array 
+        // It belongs to the real booker
+        array_splice($categories, 0, 1);
+
+        // Send Mail to Invitees
+        foreach ($invitees as $key => $value) {
+
+            $user = $value->booker;
+            $code = $this->genCode();
+            $category = $categories[$key];
+
+            $data['code'] = $code;
+            $data['confirmed'] = true;
+            // $data['cost'] = 0; // Invitee
+            $data['booker_id'] = $user->id;
+            $data['category_id'] = $category->id;
+
+            Booking::create($data);
+
+            //
+            $this->sendMail($user, $category, $code);
         }
     }
 

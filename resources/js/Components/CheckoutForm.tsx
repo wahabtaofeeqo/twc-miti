@@ -15,15 +15,15 @@ const CheckoutForm = ({data, onChange, onAdd, onUpdated, invitees = []}) => {
     return (
         <>
         <div className='mb-10'>
-            <h4 className="font-bold p-2">Personal Information</h4>
+            <h4 className="font-bold p-2 text-white">Personal Information</h4>
             <hr />
-            <p className="text-gray-500 p-2">Please complete checkout to secure your ticket.</p>
+            <p className="text-gray-400 p-2">Please complete checkout to secure your ticket.</p>
         </div>
 
         <div>
             <div className="md:flex mb-4">
                 <div className="basis-2/4 mb-4 pe-3">
-                    <InputLabel htmlFor="firstname" className="font-bold" value="Firstname" />
+                    <InputLabel htmlFor="firstname" className="font-bold text-gray-900" value="Firstname" />
 
                     <TextInput
                         id="firstname"
@@ -37,7 +37,7 @@ const CheckoutForm = ({data, onChange, onAdd, onUpdated, invitees = []}) => {
                 </div>
 
                 <div className="basis-2/4 pe-3 md:pe-0">
-                    <InputLabel htmlFor="lastname" className="font-bold" value="Lastname" />
+                    <InputLabel htmlFor="lastname" className="font-bold text-gray-900" value="Lastname" />
 
                     <TextInput
                         id="lastname"
@@ -53,7 +53,7 @@ const CheckoutForm = ({data, onChange, onAdd, onUpdated, invitees = []}) => {
 
             <div className="md:flex mb-4">
                 <div className="basis-2/4 mb-4 pe-3">
-                    <InputLabel htmlFor="email" className="font-bold" value="Email" />
+                    <InputLabel htmlFor="email" className="font-bold text-gray-900" value="Email" />
                     <TextInput
                         id="email"
                         name="email"
@@ -67,7 +67,7 @@ const CheckoutForm = ({data, onChange, onAdd, onUpdated, invitees = []}) => {
                 </div>
 
                 <div className="basis-2/4 pe-3 md:pe-0">
-                    <InputLabel htmlFor="phone" className="font-bold" value="Phone Number" />
+                    <InputLabel htmlFor="phone" className="font-bold text-gray-900" value="Phone Number" />
                     <TextInput
                         id="phone"
                         name="phone"
@@ -82,8 +82,8 @@ const CheckoutForm = ({data, onChange, onAdd, onUpdated, invitees = []}) => {
 
             {/* Invitees */}
             <div className="flex justify-between items-center mb-4">
-                <p className="caption">Tickets for other Invitees</p>
-                <div onClick={() => setOpen(!isOpen)} className="cursor-pointer">
+                <p className="caption text-white">Invitees' Information</p>
+                <div onClick={() => setOpen(!isOpen)} className="cursor-pointer text-white">
                     {
                         isOpen ? <i className="fa-solid fa-arrow-up"></i> : <i className="fa-solid fa-arrow-down"></i>
                     }
@@ -92,7 +92,7 @@ const CheckoutForm = ({data, onChange, onAdd, onUpdated, invitees = []}) => {
 
             {
                 isOpen ?
-                <div className="text-center py-3">
+                <div className="text-center py-3 text-sky-600">
                     <i className="fa-solid fa-circle-plus cursor-pointer" onClick={onAdd}></i>
                 </div> : ''
             }
