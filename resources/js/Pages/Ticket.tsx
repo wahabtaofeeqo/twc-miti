@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
 const Ticket = ({categories = []}) => {
-
+    
     const [tickets, setTickets] = useState<any>([]);
     const [isCheckout, setCheckout] = useState(false);
     const [invitees, setInvitees] = useState<any>([]);
@@ -26,12 +26,20 @@ const Ticket = ({categories = []}) => {
         let allTickets: any = [...tickets];
         let index = allTickets.findIndex(item => item.model.id == id);
         let ticket = tickets[index];
-        ticket.total = ticket.total + 1;
-        allTickets[index] = ticket;
 
-        //
-        setTickets(allTickets);
-        setData('tickets', allTickets);
+        // Check if a Ticket type is currently selected
+        let current = allTickets.find(item => item.total > 0);
+        if(current && current.model.id != ticket.model.id) {
+            toast.warn(`You can only book a single Ticket Type at a Time`);
+        }
+        else {
+            ticket.total = ticket.total + 1;
+            allTickets[index] = ticket;
+    
+            //
+            setTickets(allTickets);
+            setData('tickets', allTickets);
+        }
     }
 
     const decrementTicket = (id: number) => {

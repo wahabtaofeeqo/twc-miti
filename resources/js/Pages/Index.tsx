@@ -19,7 +19,7 @@ const Index = () => {
                     </p>
 
                     <p className="mb-10 text-gray-400">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae repellat perferendis voluptatum fugiat impedit assumenda minima molestiae dolorem labore, rerum maiores tempore neque ducimus doloremque laboriosam fuga veritatis sunt cum!
+                        "Laughter heals all wounds, and that's one thing that everybody shares. No matter what you're going through, it makes you forget about your problems. I think the world should keep laughing."
                     </p>
 
                     <div className="mb-10 flex gap-3">
@@ -35,7 +35,7 @@ const Index = () => {
                     </div>
 
                     <div>
-                        <Link href="/tickets" className="py-2 px-10 bg-white rounded shadow-sm text-black">Get Your Ticket</Link>
+                        <Link href="/tickets" className="py-3 px-10 bg-white rounded shadow-sm text-black">Get Your Ticket</Link>
                     </div>
                 </div>
                 <div className="hidden lg:flex basis-2/4 items-center justify-center">

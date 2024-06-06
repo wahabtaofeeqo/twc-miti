@@ -71,7 +71,7 @@ class PaymentController extends Controller
             'lastname' => 'required|string',
             'email' => 'required|email',
             'phone' => 'required|string',
-            'amount' => 'required|integer|min:100',
+            'amount' => 'required|integer|min:10',
             'quantity' => 'required|integer|min:1',
         ]);
 
