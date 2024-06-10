@@ -90,7 +90,7 @@ class PaymentController extends Controller
             'name' => $name,
             'email' => $input['email'],
             'phone_number' => $input['phone']
-         ];
+        ];
 
         $meta =  [
             'booker_id' => $booker->id,

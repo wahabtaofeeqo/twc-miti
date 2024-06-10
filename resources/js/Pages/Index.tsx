@@ -10,12 +10,12 @@ const Index = () => {
            
             <div className="flex items-center p-3 h-full">
                 <div className="lg:basis-2/4">
-                    <p className="text-4xl font-black text-white">
+                    {/* <p className="text-4xl font-black text-white">
                         MC Miti Comedy
-                    </p>
+                    </p> */}
 
                     <p className="text-6xl font-black mb-6 text-white">
-                        The Abido Shaker!!
+                        MC Miti Comedy Show
                     </p>
 
                     <p className="mb-10 text-gray-400">
