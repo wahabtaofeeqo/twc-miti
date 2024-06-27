@@ -4,9 +4,9 @@ import { Head, Link } from "@inertiajs/react"
 const Index = () => {
    return (
     <>
-    <Head title="The Abido Shaker" />
-    <div className="h-screen py-5 bg-green-900" >
-        <div className="max-w-7xl mx-auto h-full">
+    <Head title="The Chronicle of Ushbebe" />
+    <div className="h-screen bg-yellow-700 cover">
+        <div className="max-w-7xl mx-auto h-full py-5 overlay">
            
             <div className="flex items-center p-3 h-full">
                 <div className="lg:basis-2/4">
@@ -15,11 +15,11 @@ const Index = () => {
                     </p> */}
 
                     <p className="text-6xl font-black mb-6 text-white">
-                        MC Miti Comedy Show
+                        The Chronicle of Ushbebe
                     </p>
 
                     <p className="mb-10 text-gray-400">
-                        "Laughter heals all wounds, and that's one thing that everybody shares. No matter what you're going through, it makes you forget about your problems. I think the world should keep laughing."
+                        "The human race has only one really effective weapon and that is laughter."
                     </p>
 
                     <div className="mb-10 flex gap-3">
@@ -35,7 +35,7 @@ const Index = () => {
                     </div>
 
                     <div>
-                        <Link href="/tickets" className="py-3 px-10 bg-white rounded shadow-sm text-black">Get Your Ticket</Link>
+                        <Link href="/tickets" className="py-3 px-10 bg-red-500 rounded shadow-sm text-white">Get Your Ticket</Link>
                     </div>
                 </div>
                 <div className="hidden lg:flex basis-2/4 items-center justify-center">

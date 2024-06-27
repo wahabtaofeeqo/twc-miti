@@ -174,14 +174,14 @@ const Ticket = ({categories = []}) => {
     return (
         <>
 
-        <Head title={`MC Miti`} />
-        <ToastContainer />
+        <Head title={`Chronicle of Ushbebe`} />
+        <ToastContainer limit={1} />
 
-        <div className="min-h-screen bg-gray-600">
+        <div className="min-h-screen">
             <div className='max-w-7xl mx-auto'>
                 <nav className="px-3 mb-10 py-5 inline-flex">
-                    <Link href="/" className="flex items-center font-bold text-xl text-green-500">
-                        MC-Miti
+                    <Link href="/" className="flex items-center font-bold text-xl text-red-400">
+                        Ushebe
                     </Link>
                 </nav>
 
@@ -215,18 +215,18 @@ const Ticket = ({categories = []}) => {
                             {
                                 categories.map((item: any, index: number) => {
                                     return (
-                                        <div className="md:flex rounded border mb-10 gap-3 border-sky-500" key={index}>
+                                        <div className="md:flex rounded border mb-10 gap-3 border-red-400" key={index}>
                                             <div className="basis-3/5 p-3">
                                                 <img src={item.image} alt="regular" className="rounded lg:h-64 w-full" />
                                             </div>
                                             <div className="basis-2/5 p-3 flex flex-col items-between justify-between">
                                                 <div className="mb-6">
-                                                    <p className='font-bold mb-4 text-xl text-white'>
+                                                    <p className='font-bold mb-4 text-xl'>
                                                         {getTicket(item)?.total} x {item.name}
                                                     </p>
 
                                                     <div className="flex justify-between items-center">
-                                                        <p className="text-white">Sub Total</p>
+                                                        <p className="">Sub Total</p>
                                                         <p className='p-1 px-2 rounded bg-white'>
                                                             NGN {getTicket(item)?.total * item.amount}
                                                         </p>

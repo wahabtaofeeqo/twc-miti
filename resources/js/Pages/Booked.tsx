@@ -34,8 +34,8 @@ export default function Book(props: any) {
             <Head title="Booking Verification" />
             <div className='max-w-7xl mx-auto'>
                 <nav className="px-3 mb-10 py-5">
-                    <Link href="/" className="flex items-center font-bold text-xl text-green-500">
-                        MC-Miti
+                    <Link href="/" className="flex items-center font-bold text-xl text-red-400">
+                        Ushbebe
                     </Link>
                 </nav>
 

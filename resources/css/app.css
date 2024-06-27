@@ -20,17 +20,30 @@
     background-repeat: no-repeat;
 }
 
-.main {
-    background-image: url(/images/bg.png);
-    background-position: center right;
-    background-repeat: no-repeat;
+@media screen and (max-width: 600px) {
+    .cover {
+        background-image: url(/images/ush.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
 }
 
-/* @media screen and (max-width: 600px) {
-    .main {
-        background-image: none;
+.overlay {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+@media screen and (min-width: 768px) {
+    .overlay {
+       background-color: transparent;
     }
-} */
+}
+
+.main {
+    background-image: url(/images/ush.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 
 @media screen and (min-width: 768px) {
     .title {
