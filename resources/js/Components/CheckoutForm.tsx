@@ -81,14 +81,14 @@ const CheckoutForm = ({data, onChange, onAdd, onUpdated, invitees = []}) => {
             </div>
 
             {/* Invitees */}
-            <div className="flex justify-between items-center mb-4">
+            {/* <div className="flex justify-between items-center mb-4">
                 <p className="caption">Invitees' Information</p>
                 <div onClick={() => setOpen(!isOpen)} className="cursor-pointer">
                     {
                         isOpen ? <i className="fa-solid fa-arrow-up"></i> : <i className="fa-solid fa-arrow-down"></i>
                     }
                 </div>
-            </div>
+            </div> */}
 
             {
                 isOpen ?

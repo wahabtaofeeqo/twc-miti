@@ -54,7 +54,7 @@ class PagesController extends Controller
         }
 
         //
-        $models = Booking::with('booker', 'category')
+        $models = Booking::with('booker', 'booker.tickets', 'category')
             ->latest()->paginate(10);
 
         return Inertia::render('Dashboard', [

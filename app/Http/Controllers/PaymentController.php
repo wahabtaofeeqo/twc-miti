@@ -82,6 +82,7 @@ class PaymentController extends Controller
         $name = $input['firstname'] . ' ' . $input['lastname'];
         $booker = Booker::create([
             'name' => $name,
+            'is_buyer' => true,
             'email' => $input['email'],
             'phone' => $input['phone'],
          ]);

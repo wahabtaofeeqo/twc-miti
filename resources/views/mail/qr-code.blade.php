@@ -1,7 +1,7 @@
 <x-mail::message>
 # Congratulations!!!
 
-<p>You have successfully purchased Ticket for MC-Miti Comedy</p>
+<p>You have successfully purchased Ticket for Warri Again</p>
 
 Kindly find the details of your Ticket below:
 

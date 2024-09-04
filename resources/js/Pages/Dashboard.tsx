@@ -10,6 +10,16 @@ export default function Dashboard({ auth, models, stats = [] }) {
         return moment(model.created_at).format('MMMM Do YYYY');
     }
 
+    const getTotalTickets = (model) => {
+        let total = 0;
+        if(model.booker.is_buyer) {
+            model.booker.tickets.forEach(item => total += item.total);
+        }
+        else total = 1;
+
+        return total;
+    }
+    
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -44,8 +54,10 @@ export default function Dashboard({ auth, models, stats = [] }) {
                                         <th scope="col" className="px-6 py-3">#</th>
                                         <th scope="col" className="px-6 py-3">Name</th>
                                         <th scope="col" className="px-6 py-3">Email</th>
-                                        <th scope="col" className="px-6 py-3">Phone</th>
+                                        {/* <th scope="col" className="px-6 py-3">Phone</th> */}
                                         <th scope="col" className="px-6 py-3">Type</th>
+                                        <th scope="col" className="px-6 py-3">Buyer</th>
+                                        <th scope="col" className="px-6 py-3">Total</th>
                                         <th scope="col" className="px-6 py-3">Date</th>
                                     </tr>
                                 </thead>
@@ -57,8 +69,10 @@ export default function Dashboard({ auth, models, stats = [] }) {
                                                     <td className="px-6 py-4"> {index + 1} </td>
                                                     <td className="px-6 py-4 font-bold"> {model.booker.name} </td>
                                                     <td className="px-6 py-4"> {model.booker.email} </td>
-                                                    <td className="px-6 py-4"> {model.booker.phone || 'N/A'} </td>
                                                     <td className="px-6 py-4"> {model.category?.name || 'NA'} </td>
+                                                    <td className="px-6 py-4"> {model.booker.is_buyer ? 'YES' : 'NO'} </td>
+                                                    <td className="px-6 py-4"> {getTotalTickets(model)} 
+                                                    </td>
                                                     <td className="px-6 py-4"> {getDate(model) || 'N/A'} </td>
                                                 </tr>
                                             )

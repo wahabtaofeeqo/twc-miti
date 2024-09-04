@@ -137,12 +137,11 @@ const Ticket = ({categories = [], bookings = []}) => {
             if(!isValid) break;
         }
 
-        let totalTicket = getTicketCount() - 1;
-
-        if(totalTicket != invitees.length) {
-            toast.error('Users and Tickets selected must be equal');
-            return;
-        }
+        // let totalTicket = getTicketCount() - 1;        
+        // if(totalTicket != invitees.length) {
+        //     toast.error('Users and Tickets selected must be equal');
+        //     return;
+        // }
 
         if(!isValid) {
             toast.error('Kindly provide your invitees details!');
@@ -183,7 +182,7 @@ const Ticket = ({categories = [], bookings = []}) => {
         <Head title={`Warri Again`} />
         <ToastContainer limit={1} />
 
-        <div className="min-h-screen">
+        <div className="min-h-screen bg-green-700">
             <div className='max-w-7xl mx-auto'>
                 <nav className="px-3 mb-10 py-5 inline-flex">
                     <Link href="/" className="flex items-center font-bold text-xl text-red-400">

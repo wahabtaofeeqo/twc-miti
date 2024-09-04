@@ -35,7 +35,7 @@ export default function Book(props: any) {
             <div className='max-w-7xl mx-auto'>
                 <nav className="px-3 mb-10 py-5">
                     <Link href="/" className="flex items-center font-bold text-xl text-red-400">
-                        Ushbebe
+                        Warri Again?
                     </Link>
                 </nav>
 

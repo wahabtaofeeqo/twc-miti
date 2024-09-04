@@ -15,6 +15,17 @@ class Booker extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'phone', 'confirmed'
+        'name', 'email', 
+        'phone', 'confirmed', 'is_buyer'
     ];
+
+    /**
+     * Get all of the tickets for the Booker
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
 }
