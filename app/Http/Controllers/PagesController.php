@@ -19,10 +19,21 @@ class PagesController extends Controller
     }
 
     public function tickets() {
+
+        $bookingCount = [];
         $categories = Category::all();
+        foreach ($categories as $key => $model) {
+            $total = Booking::where('category_id', $model->id)->count();
+            $bookingCount[] = [
+                'id' => $model->id,
+                'total' => $total
+            ];
+        }
+
         return Inertia::render('Ticket', [
             'status' => session('status'),
-            'categories' => $categories
+            'categories' => $categories,
+            'bookings' => $bookingCount
         ]);
     }
 

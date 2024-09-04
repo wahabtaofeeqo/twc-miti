@@ -3,7 +3,7 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
-const Ticket = ({categories = []}) => {
+const Ticket = ({categories = [], bookings = []}) => {
     
     const [tickets, setTickets] = useState<any>([]);
     const [isCheckout, setCheckout] = useState(false);
@@ -161,6 +161,12 @@ const Ticket = ({categories = []}) => {
         })
     }
 
+    const isSoldOut = (model: any) => {
+        let obj: any = bookings.find((item: any) => item.id == model.id);
+        let max = model.name.toLowerCase() == 'vip' ? 100 : 200;
+        return (obj?.total || 0) >= max
+    }
+    
     useEffect(() => {
         if(tickets.length) {
             setData({
@@ -174,14 +180,14 @@ const Ticket = ({categories = []}) => {
     return (
         <>
 
-        <Head title={`Chronicle of Ushbebe`} />
+        <Head title={`Warri Again`} />
         <ToastContainer limit={1} />
 
         <div className="min-h-screen">
             <div className='max-w-7xl mx-auto'>
                 <nav className="px-3 mb-10 py-5 inline-flex">
                     <Link href="/" className="flex items-center font-bold text-xl text-red-400">
-                        Ushebe
+                        Warri Again?
                     </Link>
                 </nav>
 
@@ -233,10 +239,16 @@ const Ticket = ({categories = []}) => {
                                                     </div>
                                                 </div>
 
-                                                <div className="rounded flex justify-end items-center text-end cursor-pointer">
-                                                    <i className="fa-solid fa-minus block border bg-white border-e-0 p-1 px-5 rounded-s" onClick={() => decrementTicket(item.id)}></i>
-                                                    <i className="fas fa-plus block border bg-white p-1 px-5 rounded-e" onClick={() => incrementTicket(item.id)}></i>
-                                                </div>
+                                                {
+                                                    !isSoldOut(item) ? (
+                                                        <div className="rounded flex justify-end items-center text-end cursor-pointer">
+                                                            <i className="fa-solid fa-minus block border bg-white border-e-0 p-1 px-5 rounded-s" onClick={() => decrementTicket(item.id)}></i>
+                                                            <i className="fas fa-plus block border bg-white p-1 px-5 rounded-e" onClick={() => incrementTicket(item.id)}></i>
+                                                        </div>
+                                                    ) :
+                                                    <div className="inline-block py-2 px-5 border rounded bg-red-500 text-white text-center">Sold out</div>
+                                                }
+                                                
                                             </div>
                                         </div>
                                     )

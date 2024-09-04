@@ -4,8 +4,8 @@ import { Head, Link } from "@inertiajs/react"
 const Index = () => {
    return (
     <>
-    <Head title="The Chronicle of Ushbebe" />
-    <div className="h-screen bg-yellow-700 cover">
+    <Head title="Warri Again?" />
+    <div className="h-screen bg-green-700 cover">
         <div className="max-w-7xl mx-auto h-full py-5 overlay">
            
             <div className="flex items-center p-3 h-full">
@@ -15,7 +15,7 @@ const Index = () => {
                     </p> */}
 
                     <p className="text-6xl font-black mb-6 text-white">
-                        The Chronicle of Ushbebe
+                        Warri Again?
                     </p>
 
                     <p className="mb-10 text-gray-400">
@@ -35,7 +35,7 @@ const Index = () => {
                     </div>
 
                     <div>
-                        <Link href="/tickets" className="py-3 px-10 bg-red-500 rounded shadow-sm text-white">Get Your Ticket</Link>
+                        <Link href="/tickets" className="py-3 px-10 bg-white rounded shadow-sm">Get Your Ticket</Link>
                     </div>
                 </div>
                 <div className="hidden lg:flex basis-2/4 items-center justify-center">

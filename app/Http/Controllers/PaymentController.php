@@ -34,7 +34,7 @@ class PaymentController extends Controller
         try {
             $randomUUID = Str::uuid();
             $baseUrl = config('app.url');
-            $reference = "Miti_" . Str::random(10) . time();
+            $reference = "Warri_" . Str::random(10) . time();
             $url = "https://api.paystack.co/transaction/initialize";
 
             //
