@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', 'PagesController@index');
+Route::get('/reserve', 'PagesController@reserve');
 Route::get('/tickets', 'PagesController@tickets');
 Route::post('/bookings', 'PaymentController@init');
 Route::get('/bookings/verification/{id}', 'PagesController@booked');

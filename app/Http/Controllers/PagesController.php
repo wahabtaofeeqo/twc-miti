@@ -18,6 +18,12 @@ class PagesController extends Controller
         ]);
     }
 
+    public function reserve() {
+        return Inertia::render('Reserve', [
+            'status' => session('status'),
+        ]);
+    }
+
     public function tickets() {
 
         $bookingCount = [];
