@@ -284,4 +284,28 @@ class PaymentController extends Controller
         $total = Booking::count();
         return str_pad(strval($total + 1), 4, "0", STR_PAD_LEFT);
     }
+
+    public function sendQr($id)
+    {
+        $code = $this->genCode();
+        $booker = Booker::find($id);
+        $tickets = Ticket::where('booker_id', $booker->id)->get();
+        
+        $payload = [
+            'code' => $code,
+            'confirmed' => true,
+            'booker_id' => $booker->id,
+            'category_id' => $tickets[0]->category->id
+        ];
+
+        //
+        $model = Booking::create($payload);
+        $this->sendTickets($model, false);
+
+        // Update the Booker Model
+        $booker->confirmed = true;
+        $booker->save();
+
+        return to_route('dashboard.bookers');
+    }
 }

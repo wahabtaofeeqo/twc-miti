@@ -11,8 +11,11 @@ Route::get('/tickets', 'PagesController@tickets');
 Route::post('/bookings', 'PaymentController@init');
 Route::get('/bookings/verification/{id}', 'PagesController@booked');
 
-Route::get('/dashboard', 'PagesController@dashboard')
-    ->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', 'PagesController@dashboard')->name('dashboard');
+    Route::get('/dashboard/bookers', 'PagesController@bookers')->name('dashboard.bookers');
+    Route::get('/dashboard/send-qr/{id}', 'PaymentController@sendQr')->name('dashboard.sendqr');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

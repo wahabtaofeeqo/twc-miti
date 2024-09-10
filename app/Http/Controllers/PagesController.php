@@ -9,6 +9,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Category;
 use App\Models\Booking;
+use App\Models\Booker;
 
 class PagesController extends Controller
 {
@@ -66,6 +67,14 @@ class PagesController extends Controller
         return Inertia::render('Dashboard', [
             'stats' => $stats,
             'models' => $models,
+        ]);
+    }
+
+    public function bookers() {
+        $models = Booker::latest()->paginate(10);
+        return Inertia::render('Bookers', [
+            'status' => session('status'),
+            'models' => $models
         ]);
     }
 }
