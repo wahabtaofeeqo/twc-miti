@@ -308,4 +308,46 @@ class PaymentController extends Controller
 
         return to_route('dashboard.bookers');
     }
+
+    function createUser(Request $request) {
+        
+        $input = $request->all();
+        $request->validate([
+            'firstname' => 'required|string',
+            'lastname' => 'required|string',
+            'email' => 'required|email',
+            'phone' => 'required|string',
+            'category' => 'required|string',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        // Create Booker Model
+        $name = $input['firstname'] . ' ' . $input['lastname'];
+        $booker = Booker::create([
+            'name' => $name,
+            'is_buyer' => true,
+            'confirmed' => true,
+            'email' => $input['email'],
+            'phone' => $input['phone'],
+        ]);
+
+        // Generate code
+        $code = $this->genCode();
+        $category = Category::firstOrCreate(['name' => $input['category']]);
+
+        $payload = [
+            'code' => $code,
+            'confirmed' => true,
+            'booker_id' => $booker->id,
+            'category_id' => $category->id,
+            'quantity' => $input['quantity'],
+        ];
+
+        //
+        $model = Booking::create($payload);
+        $this->sendTickets($model, false);
+
+        //
+        return redirect()->back();
+    }
 }

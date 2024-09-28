@@ -3,8 +3,13 @@ import { Head } from '@inertiajs/react';
 import { PageProps } from '@/types';
 import moment from 'moment';
 import PageLink from '@/Components/PageLink';
+import { useState } from 'react';
+import Modal from '@/Components/Modal';
+import CreateUserForm from '@/Components/CreateUserForm';
 
 export default function Dashboard({ auth, models, stats = [] }) {
+
+    const [isOpen, setOpen] = useState(false);
 
     const getDate = (model: any) => {
         return moment(model.created_at).format('MMMM Do YYYY');
@@ -14,6 +19,7 @@ export default function Dashboard({ auth, models, stats = [] }) {
         let total = 0;
         if(model.booker.is_buyer) {
             model.booker.tickets.forEach(item => total += item.total);
+            total = model.quantity || total;
         }
         else total = 1;
 
@@ -25,6 +31,16 @@ export default function Dashboard({ auth, models, stats = [] }) {
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}>
             <Head title="Dashboard" />
+
+            <Modal show={isOpen} onClose={() => setOpen(false)}>
+                <div className='p-4'>
+                    <h1 className='font-bold text-xl'>Create Booking</h1>
+                    <p className='mb-6 text-slate-500 text-sm'>
+                        Create User Profile and Booking to send QR to.
+                    </p>
+                    <CreateUserForm onCreated={() => setOpen(false)}></CreateUserForm>
+                </div>
+            </Modal>
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -47,6 +63,9 @@ export default function Dashboard({ auth, models, stats = [] }) {
                     </div>
 
                     <div className="bg-white overflow-hidden shadow-sm mx-4 lg:mx-0 rounded mb-6">
+                        <div className='text-end p-3'>
+                            <button className='bg-red-500 text-white py-2 px-5 rounded' onClick={() => setOpen(!isOpen)}>Add User</button>
+                        </div>
                         <div className="relative overflow-x-auto">
                             <table className="w-full text-sm text-left text-gray-500">
                                 <thead className="text-xs text-gray-700 uppercase bg-gray-50">
