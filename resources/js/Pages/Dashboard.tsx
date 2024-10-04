@@ -1,6 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import { PageProps } from '@/types';
 import moment from 'moment';
 import PageLink from '@/Components/PageLink';
 import { useState } from 'react';
@@ -16,10 +15,9 @@ export default function Dashboard({ auth, models, stats = [] }) {
     }
 
     const getTotalTickets = (model) => {
-        let total = 0;
+        let total = model.quantity || 0;
         if(model.booker.is_buyer) {
             model.booker.tickets.forEach(item => total += item.total);
-            total = model.quantity || total;
         }
         else total = 1;
 
@@ -64,6 +62,7 @@ export default function Dashboard({ auth, models, stats = [] }) {
 
                     <div className="bg-white overflow-hidden shadow-sm mx-4 lg:mx-0 rounded mb-6">
                         <div className='text-end p-3'>
+                            <a href="/dashboard/export-qr" className="bg-sky-900 rounded ms-6 px-3 py-2 text-white me-3">Export Data</a>
                             <button className='bg-red-500 text-white py-2 px-5 rounded' onClick={() => setOpen(!isOpen)}>Add User</button>
                         </div>
                         <div className="relative overflow-x-auto">

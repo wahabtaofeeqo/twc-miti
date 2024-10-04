@@ -10,6 +10,8 @@ use Inertia\Response;
 use App\Models\Category;
 use App\Models\Booking;
 use App\Models\Booker;
+use App\Exports\BookersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PagesController extends Controller
 {
@@ -76,5 +78,9 @@ class PagesController extends Controller
             'status' => session('status'),
             'models' => $models
         ]);
+    }
+
+    public function exportQR() {
+        return Excel::download(new BookersExport, 'attendees.xlsx');
     }
 }

@@ -163,8 +163,9 @@ const Ticket = ({categories = [], bookings = []}) => {
 
     const isSoldOut = (model: any) => {
         let obj: any = bookings.find((item: any) => item.id == model.id);
-        let max = model.name.toLowerCase() == 'vip' ? 100 : 200;
-        return (obj?.total || 0) >= max
+        // let max = model.name.toLowerCase() == 'vip' ? 100 : 200;
+        // return (obj?.total || 0) >= max
+        return model.name.toLowerCase() == 'vip';
     }
     
     useEffect(() => {
