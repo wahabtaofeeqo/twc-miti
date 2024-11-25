@@ -1,8 +1,45 @@
 import CheckoutForm from "@/Components/CheckoutForm";
-import Modal from "@/Components/Modal";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+
+
+const offlineTickets = [
+    {
+        name: 'Silver',
+        image: 'images/silver.jpg'
+    },
+
+    // {
+    //     name: 'VIP',
+    //     image: 'images/vip.jpg'
+    // },
+
+    {
+        name: 'Gold',
+        image: 'images/gold.jpg'
+    },
+
+    {
+        name: 'Platinum',
+        image: 'images/platinum.jpg'
+    },
+
+    {
+        name: 'Premium Gold',
+        image: 'images/pg.jpg'
+    },
+
+    // {
+    //     name: 'Premium',
+    //     image: 'images/premium.jpg'
+    // },
+
+    {
+        name: 'Premium Platinum',
+        image: 'images/pp.jpg'
+    }
+]
 
 const Ticket = ({categories = [], bookings = []}) => {
     
@@ -165,7 +202,8 @@ const Ticket = ({categories = [], bookings = []}) => {
         let obj: any = bookings.find((item: any) => item.id == model.id);
         // let max = model.name.toLowerCase() == 'vip' ? 100 : 200;
         // return (obj?.total || 0) >= max
-        return model.name.toLowerCase() == 'vip';
+        // return model.name.toLowerCase() == 'vip';
+        return false;
     }
     
     useEffect(() => {
@@ -256,47 +294,32 @@ const Ticket = ({categories = [], bookings = []}) => {
                                 })
                             }
 
-                            <div className="md:flex rounded border mb-10 gap-3 border-red-400">
-                                <div className="basis-3/5 p-3">
-                                    <img src="/images/gold.jpg" alt="regular" className="rounded lg:h-64 w-full" />
-                                </div>
-                                <div className="basis-2/5 p-3 flex flex-col items-between justify-between">
-                                    <div className="mb-6">
-                                        <p className='font-bold mb-4 text-xl'>
-                                            1 x Gold
-                                        </p>
-
-                                        <div className="flex justify-between items-center">
-                                            <p className="">Sub Total</p>
-                                            <p className='p-1 px-2 rounded bg-white'>
-                                                NGN 0
-                                            </p>
+                           {
+                                offlineTickets.map((item, index) => {
+                                   return (
+                                    <div key={item.name} className="md:flex rounded border mb-10 gap-3 border-red-400">
+                                        <div className="basis-3/5 p-3">
+                                            <img src={item.image} alt="regular" className="rounded lg:h-64 w-full" />
                                         </div>
-                                    </div>   
-                                    <Link href="/reserve" className="inline-block py-2 px-5 border rounded bg-white text-center cursor-pointer">Reserve</Link>
-                                </div>
-                            </div>
-
-                            <div className="md:flex rounded border mb-10 gap-3 border-red-400">
-                                <div className="basis-3/5 p-3">
-                                    <img src="/images/platinum.jpg" alt="regular" className="rounded lg:h-64 w-full" />
-                                </div>
-                                <div className="basis-2/5 p-3 flex flex-col items-between justify-between">
-                                    <div className="mb-6">
-                                        <p className='font-bold mb-4 text-xl'>
-                                            1 x Platinum
-                                        </p>
-
-                                        <div className="flex justify-between items-center">
-                                            <p className="">Sub Total</p>
-                                            <p className='p-1 px-2 rounded bg-white'>
-                                                NGN 0
-                                            </p>
+                                        <div className="basis-2/5 p-3 flex flex-col items-between justify-between">
+                                            <div className="mb-6">
+                                                <p className='font-bold mb-4 text-xl'>
+                                                    1 x {item.name}
+                                                </p>
+        
+                                                <div className="flex justify-between items-center">
+                                                    <p className="">Sub Total</p>
+                                                    <p className='p-1 px-2 rounded bg-white'>
+                                                        NGN 0
+                                                    </p>
+                                                </div>
+                                            </div>   
+                                            <Link href="/reserve" className="inline-block py-2 px-5 border rounded bg-white text-center cursor-pointer">Reserve</Link>
                                         </div>
-                                    </div>   
-                                    <Link href="/reserve" className="inline-block py-2 px-5 border rounded bg-white text-center cursor-pointer">Reserve</Link>
-                                </div>
-                            </div>
+                                    </div> 
+                                   )
+                                })
+                           }
                         </div>
                     )
                 }
