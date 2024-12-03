@@ -10,11 +10,6 @@ const offlineTickets = [
         image: 'images/silver.jpg'
     },
 
-    // {
-    //     name: 'VIP',
-    //     image: 'images/vip.jpg'
-    // },
-
     {
         name: 'Gold',
         image: 'images/gold.jpg'
@@ -29,11 +24,6 @@ const offlineTickets = [
         name: 'Premium Gold',
         image: 'images/pg.jpg'
     },
-
-    // {
-    //     name: 'Premium',
-    //     image: 'images/premium.jpg'
-    // },
 
     {
         name: 'Premium Platinum',
@@ -295,7 +285,7 @@ const Ticket = ({categories = [], bookings = []}) => {
                             }
 
                            {
-                                offlineTickets.map((item, index) => {
+                                offlineTickets.map((item) => {
                                    return (
                                     <div key={item.name} className="md:flex rounded border mb-10 gap-3 border-red-400">
                                         <div className="basis-3/5 p-3">

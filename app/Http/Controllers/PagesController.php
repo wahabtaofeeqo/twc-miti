@@ -12,6 +12,7 @@ use App\Models\Booking;
 use App\Models\Booker;
 use App\Exports\BookersExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Mail;
 
 class PagesController extends Controller
 {

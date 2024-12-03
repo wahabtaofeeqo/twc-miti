@@ -47,8 +47,7 @@ class PaymentController extends Controller
                 'callback_url' => $baseUrl . '/bookings/verification/' . $randomUUID
             ]);
 
-            if ($response->successful())
-                return $response->object()->data;
+            if ($response->successful()) return $response->object()->data;
         }
         catch (\Exception $e) {
             info($e->getMessage());
