@@ -31,7 +31,9 @@ class PagesController extends Controller
     public function tickets() {
 
         $bookingCount = [];
-        $categories = Category::where('is_active', true)->get();
+        $categories = Category::where('is_active', true)
+            ->where('event', 'ff')->get();
+            
         foreach ($categories as $key => $model) {
             $total = Booking::where('category_id', $model->id)->count();
             $bookingCount[] = [

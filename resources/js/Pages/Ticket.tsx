@@ -5,30 +5,30 @@ import { ToastContainer, toast } from "react-toastify";
 
 
 const offlineTickets = [
-    {
-        name: 'Silver',
-        image: 'images/silver.jpg'
-    },
+    // {
+    //     name: 'Silver',
+    //     image: 'images/silver.jpg'
+    // },
 
-    {
-        name: 'Gold',
-        image: 'images/gold.jpg'
-    },
+    // {
+    //     name: 'Gold',
+    //     image: 'images/gold.jpg'
+    // },
 
-    {
-        name: 'Platinum',
-        image: 'images/platinum.jpg'
-    },
+    // {
+    //     name: 'Platinum',
+    //     image: 'images/platinum.jpg'
+    // },
 
-    {
-        name: 'Premium Gold',
-        image: 'images/pg.jpg'
-    },
+    // {
+    //     name: 'Premium Gold',
+    //     image: 'images/pg.jpg'
+    // },
 
-    {
-        name: 'Premium Platinum',
-        image: 'images/pp.jpg'
-    }
+    // {
+    //     name: 'Premium Platinum',
+    //     image: 'images/pp.jpg'
+    // }
 ]
 
 const Ticket = ({categories = [], bookings = []}) => {
@@ -209,14 +209,14 @@ const Ticket = ({categories = [], bookings = []}) => {
     return (
         <>
 
-        <Head title={`Warri Again`} />
+        <Head title={`Fun Fiesta`} />
         <ToastContainer limit={1} />
 
-        <div className="min-h-screen bg-green-700">
+        <div className="min-h-screen bg-sky-700">
             <div className='max-w-7xl mx-auto'>
                 <nav className="px-3 mb-10 py-5 inline-flex">
-                    <Link href="/" className="flex items-center font-bold text-xl text-red-400">
-                        Warri Again?
+                    <Link href="/" className="flex items-center font-bold text-3xl text-pink-500">
+                       Fun Fiesta
                     </Link>
                 </nav>
 
@@ -251,8 +251,8 @@ const Ticket = ({categories = [], bookings = []}) => {
                                 categories.map((item: any, index: number) => {
                                     return (
                                         <div className="md:flex rounded border mb-10 gap-3 border-red-400" key={index}>
-                                            <div className="basis-3/5 p-3">
-                                                <img src={item.image} alt="regular" className="rounded lg:h-64 w-full" />
+                                            <div className="basis-3/5 p-3 h-96">
+                                                <img src={item.image} alt="regular" className="rounded h-full w-full" />
                                             </div>
                                             <div className="basis-2/5 p-3 flex flex-col items-between justify-between">
                                                 <div className="mb-6">
@@ -285,7 +285,7 @@ const Ticket = ({categories = [], bookings = []}) => {
                             }
 
                            {
-                                offlineTickets.map((item) => {
+                                offlineTickets.map((item: any) => {
                                    return (
                                     <div key={item.name} className="md:flex rounded border mb-10 gap-3 border-red-400">
                                         <div className="basis-3/5 p-3">
@@ -317,7 +317,7 @@ const Ticket = ({categories = [], bookings = []}) => {
                     {
                         isCheckout
                         ? <div></div>
-                        : <button type='button' className='bg-sky-500 text-white p-2 px-3 rounded w-48' onClick={onContinue}>Continue</button>
+                        : <button type='button' className='bg-pink-500 text-white p-2 px-3 rounded w-48' onClick={onContinue}>Continue</button>
                     }
                 </div>
             </div>
