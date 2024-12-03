@@ -28,7 +28,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
 
     return (
         <GuestLayout>
-            <Head title="Log in" />
+            <Head title="Login" />
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
 
@@ -87,7 +87,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                         </Link>
                     )} */}
 
-                    <PrimaryButton className="ms-4" disabled={processing}>
+                    <PrimaryButton className="ms-4 bg-pink-500" disabled={processing}>
                         Login
                     </PrimaryButton>
                 </div>

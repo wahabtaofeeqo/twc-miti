@@ -209,14 +209,14 @@ const Ticket = ({categories = [], bookings = []}) => {
     return (
         <>
 
-        <Head title={`Fun Fiesta`} />
+        <Head title={`FunFiesta`} />
         <ToastContainer limit={1} />
 
         <div className="min-h-screen bg-sky-700">
             <div className='max-w-7xl mx-auto'>
                 <nav className="px-3 mb-10 py-5 inline-flex">
                     <Link href="/" className="flex items-center font-bold text-3xl text-pink-500">
-                       Fun Fiesta
+                       FunFiesta
                     </Link>
                 </nav>
 

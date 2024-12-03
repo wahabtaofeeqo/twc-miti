@@ -4,7 +4,7 @@ import { Head, Link } from "@inertiajs/react"
 const Index = () => {
    return (
     <>
-    <Head title="Warri Again?" />
+    <Head title="FunFiesta" />
     <div className="h-screen bg-sky-700 cover">
         <div className="max-w-7xl mx-auto h-full py-5 overlay">
            
