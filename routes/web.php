@@ -13,10 +13,11 @@ Route::get('/bookings/verification/{id}', 'PagesController@booked');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', 'PagesController@dashboard')->name('dashboard');
+    Route::get('/dashboard/send-qr/{id}', 'PaymentController@sendQrViaBooker');
     Route::get('/dashboard/export-qr', 'PagesController@exportQr')->name('export');
     Route::post('create-user', 'PaymentController@createUser')->name('users.create');
     Route::get('/dashboard/bookers', 'PagesController@bookers')->name('dashboard.bookers');
-    Route::get('/dashboard/send-qr/{id}', 'PaymentController@sendQr')->name('dashboard.sendqr');
+    Route::post('/dashboard/send-qr', 'PaymentController@sendQr')->name('dashboard.sendqr');
 });
 
 Route::middleware('auth')->group(function () {

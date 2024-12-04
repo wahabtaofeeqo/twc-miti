@@ -33,7 +33,7 @@ class QrCode extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Warri Again',
+            subject: 'FunFiesta',
         );
     }
 

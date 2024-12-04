@@ -1,14 +1,16 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import moment from 'moment';
 import PageLink from '@/Components/PageLink';
 import { useState } from 'react';
 import Modal from '@/Components/Modal';
 import CreateUserForm from '@/Components/CreateUserForm';
+import Checkbox from '@/Components/Checkbox';
 
 export default function Dashboard({ auth, models, stats = [] }) {
 
     const [isOpen, setOpen] = useState(false);
+    const [selectedUsers, setUsers] = useState<any[]>([]);
 
     const getDate = (model: any) => {
         return moment(model.created_at).format('MMMM Do YYYY');
@@ -24,6 +26,34 @@ export default function Dashboard({ auth, models, stats = [] }) {
         return total;
     }
     
+    const onChecked = (model: any) => {
+        let users: any[] = selectedUsers;
+        let index = users.findIndex(item => item == model.id);
+        if(index == -1) {
+            if(users.length >= 5) {
+                alert('Select only 5 persons at a time to send SMS to')
+            }
+            else users.push(model.id);
+        }
+        else {
+            users.splice(index, 1);
+        }
+
+        setUsers(users);
+    }
+
+    
+    const sendQr = () => {
+        let IDs  = selectedUsers;
+        if(IDs.length) {
+            router.post(route('dashboard.sendqr'), {ids: IDs}, {
+                onSuccess: () => {
+                    setUsers([])
+                }
+            })
+        }
+    }
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -62,6 +92,7 @@ export default function Dashboard({ auth, models, stats = [] }) {
 
                     <div className="bg-white overflow-hidden shadow-sm mx-4 lg:mx-0 rounded mb-6">
                         <div className='text-end p-3'>
+                            <button onClick={sendQr}>Send QR</button>
                             <a href="/dashboard/export-qr" className="bg-sky-900 rounded ms-6 px-3 py-2 text-white me-3">Export Data</a>
                             {/* <button className='bg-red-500 text-white py-2 px-5 rounded' onClick={() => setOpen(!isOpen)}>Add User</button> */}
                         </div>
@@ -73,10 +104,11 @@ export default function Dashboard({ auth, models, stats = [] }) {
                                         <th scope="col" className="px-6 py-3">Name</th>
                                         <th scope="col" className="px-6 py-3">Email</th>
                                         {/* <th scope="col" className="px-6 py-3">Phone</th> */}
-                                        <th scope="col" className="px-6 py-3">Type</th>
-                                        <th scope="col" className="px-6 py-3">Buyer</th>
-                                        <th scope="col" className="px-6 py-3">Total</th>
+                                        {/* <th scope="col" className="px-6 py-3">Type</th>
+                                        <th scope="col" className="px-6 py-3">Buyer</th> */}
+                                        {/* <th scope="col" className="px-6 py-3">Total</th> */}
                                         <th scope="col" className="px-6 py-3">Date</th>
+                                        <th scope="col" className="px-6 py-3">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -87,11 +119,14 @@ export default function Dashboard({ auth, models, stats = [] }) {
                                                     <td className="px-6 py-4"> {index + 1} </td>
                                                     <td className="px-6 py-4 font-bold"> {model.booker.name} </td>
                                                     <td className="px-6 py-4"> {model.booker.email} </td>
-                                                    <td className="px-6 py-4"> {model.category?.name || 'NA'} </td>
-                                                    <td className="px-6 py-4"> {model.booker.is_buyer ? 'YES' : 'NO'} </td>
-                                                    <td className="px-6 py-4"> {getTotalTickets(model)} 
-                                                    </td>
+                                                    {/* <td className="px-6 py-4"> {model.category?.name || 'NA'} </td>
+                                                    <td className="px-6 py-4"> {model.booker.is_buyer ? 'YES' : 'NO'} </td> */}
+                                                    {/* <td className="px-6 py-4"> {getTotalTickets(model)} 
+                                                    </td> */}
                                                     <td className="px-6 py-4"> {getDate(model) || 'N/A'} </td>
+                                                    <td className="px-6 py-4">
+                                                        <Checkbox onChange={() => onChecked(model)}></Checkbox>
+                                                    </td>
                                                 </tr>
                                             )
                                         })

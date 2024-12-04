@@ -1,20 +1,11 @@
 <x-mail::message>
 # Congratulations!!!
 
-<p>You have successfully purchased Ticket for Warri Again</p>
-
-Kindly find the details of your Ticket below:
-
-<h4 style="margin-bottom: 5px">Ticket Type</h4>
-<p>{{$category->name}}</p>
-
-<strong>
-    Kindly find the details of your Ticket below:
-</strong>
+<p>You have successfully purchased Ticket for FunFiesta</p>
 
 <h4 style="margin-bottom: 5px">Entry Code</h4>
-<div>
-    <img src="{{ asset("qrcode/" . $user->email . "/" . $qrCode) }}" alt="QR Code">
+<div style="text-align: center; margin: 10px">
+    <img style="width: 200px; margin: auto" src="{{ asset("qrcode/" . $user->code . ".png") }}" alt="QR Code">
 </div>
 
 Thanks,<br>

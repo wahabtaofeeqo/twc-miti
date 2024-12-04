@@ -181,7 +181,7 @@ class PaymentController extends Controller
 
                    //
                    $model = Booking::create($payload);
-                   $this->sendTickets($model, false);
+                   $this->sendTickets($model);
 
                     // Save payment
                     Payment::create([
@@ -229,7 +229,7 @@ class PaymentController extends Controller
         }
     }
 
-    private function sendTickets($booking, $isBeachBooking) {
+    private function sendTickets($booking) {
 
         // Send Mail to Ticket buyer
         $code = $booking->code;
@@ -284,7 +284,18 @@ class PaymentController extends Controller
         return str_pad(strval($total + 1), 4, "0", STR_PAD_LEFT);
     }
 
-    public function sendQr($id)
+    public function sendQR(Request $request) {
+        
+        $IDs = $request->ids ?? [];
+        foreach ($IDs as $id) {
+            $this->sendTickets(Booking::find($id));
+        }
+
+        //
+        return redirect()->back();
+    }
+
+    public function sendQrViaBooker($id)
     {
         $code = $this->genCode();
         $booker = Booker::find($id);
@@ -308,45 +319,45 @@ class PaymentController extends Controller
         return to_route('dashboard.bookers');
     }
 
-    function createUser(Request $request) {
+    // function createUser(Request $request) {
         
-        $input = $request->all();
-        $request->validate([
-            'firstname' => 'required|string',
-            'lastname' => 'required|string',
-            'email' => 'required|email',
-            'phone' => 'required|string',
-            'category' => 'required|string',
-            'quantity' => 'required|integer|min:1',
-        ]);
+    //     $input = $request->all();
+    //     $request->validate([
+    //         'firstname' => 'required|string',
+    //         'lastname' => 'required|string',
+    //         'email' => 'required|email',
+    //         'phone' => 'required|string',
+    //         'category' => 'required|string',
+    //         'quantity' => 'required|integer|min:1',
+    //     ]);
 
-        // Create Booker Model
-        $name = $input['firstname'] . ' ' . $input['lastname'];
-        $booker = Booker::create([
-            'name' => $name,
-            'is_buyer' => true,
-            'confirmed' => true,
-            'email' => $input['email'],
-            'phone' => $input['phone'],
-        ]);
+    //     // Create Booker Model
+    //     $name = $input['firstname'] . ' ' . $input['lastname'];
+    //     $booker = Booker::create([
+    //         'name' => $name,
+    //         'is_buyer' => true,
+    //         'confirmed' => true,
+    //         'email' => $input['email'],
+    //         'phone' => $input['phone'],
+    //     ]);
 
-        // Generate code
-        $code = $this->genCode();
-        $category = Category::firstOrCreate(['name' => $input['category']]);
+    //     // Generate code
+    //     $code = $this->genCode();
+    //     $category = Category::firstOrCreate(['name' => $input['category']]);
 
-        $payload = [
-            'code' => $code,
-            'confirmed' => true,
-            'booker_id' => $booker->id,
-            'category_id' => $category->id,
-            'quantity' => $input['quantity'],
-        ];
+    //     $payload = [
+    //         'code' => $code,
+    //         'confirmed' => true,
+    //         'booker_id' => $booker->id,
+    //         'category_id' => $category->id,
+    //         'quantity' => $input['quantity'],
+    //     ];
 
-        //
-        $model = Booking::create($payload);
-        $this->sendTickets($model, false);
+    //     //
+    //     $model = Booking::create($payload);
+    //     $this->sendTickets($model, false);
 
-        //
-        return redirect()->back();
-    }
+    //     //
+    //     return redirect()->back();
+    // }
 }
