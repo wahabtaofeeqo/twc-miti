@@ -47,6 +47,12 @@ class PagesController extends Controller
         ]);
     }
 
+    public function table() {
+        return Inertia::render('Table', [
+            'status' => session('status'),
+        ]);
+    }
+
     public function booked() {
         return Inertia::render('Booked', [
             'status' => session('status'),
