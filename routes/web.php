@@ -16,6 +16,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', 'PagesController@dashboard')->name('dashboard');
     Route::get('/dashboard/export-qr', 'PagesController@exportQr')->name('export');
     Route::post('create-user', 'PaymentController@createUser')->name('users.create');
+
+    // Tables
+    Route::post('tables', 'PagesController@bookTable')->name('tables.create');
     Route::get('/dashboard/bookers', 'PagesController@bookers')->name('dashboard.bookers');
     Route::get('/dashboard/send-qr/{id}', 'PaymentController@sendQr')->name('dashboard.sendqr');
 });

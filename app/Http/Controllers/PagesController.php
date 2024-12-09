@@ -13,6 +13,7 @@ use App\Models\Booker;
 use App\Exports\BookersExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Mail;
+use App\Models\Table;
 
 class PagesController extends Controller
 {
@@ -47,9 +48,26 @@ class PagesController extends Controller
         ]);
     }
 
+    public function bookTable(Request $request) {
+
+        $payload = $request->all();
+        $IDs = $payload['ids'] ?? [];
+        foreach ($IDs as $value) {
+            $model = Table::find($value);
+            $model->booked = true;
+            $model->save();
+        }
+
+        return redirect()->back();
+    }
+
     public function table() {
+
+        $tables = Table::get()->groupBy('type');
+
         return Inertia::render('Table', [
             'status' => session('status'),
+            'tables' => $tables
         ]);
     }
 
@@ -70,12 +88,15 @@ class PagesController extends Controller
         }
 
         //
+        $tables = Table::where('booked', 0)
+            ->get()->groupBy('type');
         $models = Booking::with('booker', 'booker.tickets', 'category')
             ->latest()->paginate(10);
 
         return Inertia::render('Dashboard', [
             'stats' => $stats,
             'models' => $models,
+            'tables' => $tables
         ]);
     }
 

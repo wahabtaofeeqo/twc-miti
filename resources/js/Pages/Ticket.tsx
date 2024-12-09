@@ -209,7 +209,7 @@ const Ticket = ({categories = [], bookings = []}) => {
     return (
         <>
 
-        <Head title={`Warri Again`} />
+        <Head title={`Tickets`} />
         <ToastContainer limit={1} />
 
         <div className="min-h-screen bg-green-700">
