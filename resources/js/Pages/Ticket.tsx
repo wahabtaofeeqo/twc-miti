@@ -5,30 +5,30 @@ import { ToastContainer, toast } from "react-toastify";
 
 
 const offlineTickets = [
-    {
-        name: 'Silver',
-        image: 'images/silver.jpg'
-    },
+    // {
+    //     name: 'Silver',
+    //     image: 'images/silver.jpg'
+    // },
 
-    {
-        name: 'Gold',
-        image: 'images/gold.jpg'
-    },
+    // {
+    //     name: 'Gold',
+    //     image: 'images/gold.jpg'
+    // },
 
-    {
-        name: 'Platinum',
-        image: 'images/platinum.jpg'
-    },
+    // {
+    //     name: 'Platinum',
+    //     image: 'images/platinum.jpg'
+    // },
 
-    {
-        name: 'Premium Gold',
-        image: 'images/pg.jpg'
-    },
+    // {
+    //     name: 'Premium Gold',
+    //     image: 'images/pg.jpg'
+    // },
 
-    {
-        name: 'Premium Platinum',
-        image: 'images/pp.jpg'
-    }
+    // {
+    //     name: 'Premium Platinum',
+    //     image: 'images/pp.jpg'
+    // }
 ]
 
 const Ticket = ({categories = [], bookings = []}) => {
@@ -216,7 +216,7 @@ const Ticket = ({categories = [], bookings = []}) => {
             <div className='max-w-7xl mx-auto'>
                 <nav className="px-3 mb-10 py-5 inline-flex">
                     <Link href="/" className="flex items-center font-bold text-xl text-red-400">
-                        Warri Again?
+                        Ushbebe
                     </Link>
                 </nav>
 
@@ -285,7 +285,7 @@ const Ticket = ({categories = [], bookings = []}) => {
                             }
 
                            {
-                                offlineTickets.map((item) => {
+                                offlineTickets.map((item: any) => {
                                    return (
                                     <div key={item.name} className="md:flex rounded border mb-10 gap-3 border-red-400">
                                         <div className="basis-3/5 p-3">
