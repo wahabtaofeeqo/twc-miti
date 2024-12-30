@@ -189,11 +189,11 @@ const Ticket = ({categories = [], bookings = []}) => {
     }
 
     const isSoldOut = (model: any) => {
-        let obj: any = bookings.find((item: any) => item.id == model.id);
+        // let obj: any = bookings.find((item: any) => item.id == model.id);
         // let max = model.name.toLowerCase() == 'vip' ? 100 : 200;
         // return (obj?.total || 0) >= max
         // return model.name.toLowerCase() == 'vip';
-        return false;
+        return model.is_sold ?? false;
     }
     
     useEffect(() => {
@@ -304,7 +304,8 @@ const Ticket = ({categories = [], bookings = []}) => {
                                                     </p>
                                                 </div>
                                             </div>   
-                                            <Link href="/reserve" className="inline-block py-2 px-5 border rounded bg-white text-center cursor-pointer">Reserve</Link>
+                                                <div className="inline-block py-2 px-5 border rounded bg-red-500 text-white text-center">Sold out</div>
+                                            {/* <Link href="/reserve" className="inline-block py-2 px-5 border rounded bg-white text-center cursor-pointer">Reserve</Link> */}
                                         </div>
                                     </div> 
                                    )

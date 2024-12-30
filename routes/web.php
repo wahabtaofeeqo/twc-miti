@@ -12,6 +12,8 @@ Route::get('/tickets', 'PagesController@tickets');
 Route::post('/bookings', 'PaymentController@init');
 Route::get('/bookings/verification/{id}', 'PagesController@booked');
 
+Route::get('/health', 'PagesController@healthCheck');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', 'PagesController@dashboard')->name('dashboard');
     Route::get('/dashboard/export-qr', 'PagesController@exportQr')->name('export');

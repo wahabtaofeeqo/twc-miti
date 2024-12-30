@@ -33,7 +33,7 @@ class PagesController extends Controller
 
         $bookingCount = [];
         $categories = Category::where('is_active', true)->get();
-        foreach ($categories as $key => $model) {
+        foreach ($categories as $model) {
             $total = Booking::where('category_id', $model->id)->count();
             $bookingCount[] = [
                 'id' => $model->id,
@@ -110,5 +110,13 @@ class PagesController extends Controller
 
     public function exportQR() {
         return Excel::download(new BookersExport, 'attendees.xlsx');
+    }
+
+    public function healthCheck() {
+        Mail::raw('plain text message', function ($message) {
+            $message->to('taofeekolamilekan218@gmail.com', 'Taofeek');
+        });
+
+        return "Seems OK";
     }
 }
