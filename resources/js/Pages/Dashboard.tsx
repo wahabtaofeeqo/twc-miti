@@ -165,11 +165,11 @@ export default function Dashboard({ auth, models, stats = [], tables = [] }) {
                     </div>
 
                     <div className="bg-white overflow-hidden shadow-sm mx-4 lg:mx-0 rounded my-6">
-                       <div className='flex justify-between items-center p-3'>
-                            <button className='bg-green-400 text-white py-2 px-5 rounded' onClick={() => setToggleTableModal(!isTableModal)}>Book Table</button>
+                       <div className='flex justify-end items-center p-3'>
+                            {/* <button className='bg-green-400 text-white py-2 px-5 rounded' onClick={() => setToggleTableModal(!isTableModal)}>Book Table</button> */}
                             <div className=''>
                                 <a href="/dashboard/export-qr" className="bg-sky-900 rounded ms-6 px-3 py-2 text-white me-3">Export Data</a>
-                                <button className='bg-red-500 text-white py-2 px-5 rounded' onClick={() => setOpen(!isOpen)}>Add User</button>
+                                {/* <button className='bg-red-500 text-white py-2 px-5 rounded' onClick={() => setOpen(!isOpen)}>Add User</button> */}
                             </div>
                        </div>
                         <div className="relative overflow-x-auto">

@@ -88,15 +88,16 @@ class PagesController extends Controller
         }
 
         //
-        $tables = Table::where('booked', 0)
-            ->get()->groupBy('type');
+        // $tables = Table::where('booked', 0)
+        //     ->get()->groupBy('type');
+
         $models = Booking::with('booker', 'booker.tickets', 'category')
             ->latest()->paginate(10);
 
         return Inertia::render('Dashboard', [
             'stats' => $stats,
             'models' => $models,
-            'tables' => $tables
+            'tables' => []
         ]);
     }
 

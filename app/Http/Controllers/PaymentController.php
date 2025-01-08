@@ -152,7 +152,6 @@ class PaymentController extends Controller
                 if ($data->status == 'success') {
 
                     $meta = $data->metadata;
-                    // $user = User::find($meta->user_id);
                     $booker = Booker::findOrFail($meta->booker_id);
 
                     // Check payment
