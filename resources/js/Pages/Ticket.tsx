@@ -3,44 +3,6 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
-
-const offlineTickets = [
-    {
-        name: 'Silver',
-        image: 'images/silver.jpg'
-    },
-
-    // {
-    //     name: 'VIP',
-    //     image: 'images/vip.jpg'
-    // },
-
-    {
-        name: 'Gold',
-        image: 'images/gold.jpg'
-    },
-
-    {
-        name: 'Platinum',
-        image: 'images/platinum.jpg'
-    },
-
-    {
-        name: 'Premium Gold',
-        image: 'images/pg.jpg'
-    },
-
-    // {
-    //     name: 'Premium',
-    //     image: 'images/premium.jpg'
-    // },
-
-    {
-        name: 'Premium Platinum',
-        image: 'images/pp.jpg'
-    }
-]
-
 const Ticket = ({categories = [], bookings = []}) => {
     
     const [tickets, setTickets] = useState<any>([]);
@@ -219,19 +181,19 @@ const Ticket = ({categories = [], bookings = []}) => {
     return (
         <>
 
-        <Head title={`Warri Again`} />
+        <Head title={`Ticket Categories`} />
         <ToastContainer limit={1} />
 
-        <div className="min-h-screen bg-green-700">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
             <div className='max-w-7xl mx-auto'>
                 <nav className="px-3 mb-10 py-5 inline-flex">
                     <Link href="/" className="flex items-center font-bold text-xl text-red-400">
-                        Warri Again?
+                        Home
                     </Link>
                 </nav>
 
                 <header className='mb-5'>
-                    <h1 className='text-4xl font-bold title text-center' style={{color: '#E7EAEE'}}>
+                    <h1 className='text-4xl font-bold title text-center text-indigo'>
                         {
                             isCheckout ? 'CHECKOUT' : 'YOUR TICKET'
                         }
@@ -248,7 +210,7 @@ const Ticket = ({categories = [], bookings = []}) => {
 
                                 <div className='py-4 text-end flex gap-3 justify-end'>
                                     <button type='button' disabled={processing} className='bg-gray-100 p-2 px-3 rounded' onClick={() => setCheckout(false)}>Cancel</button>
-                                    <button disabled={processing} className='bg-sky-500 text-white p-2 px-3 rounded w-48'>Pay now</button>
+                                    <button disabled={processing} className='text-white p-2 px-3 rounded w-48 inline-block bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'>Pay now</button>
                                 </div>
                             </form>
 
@@ -294,32 +256,7 @@ const Ticket = ({categories = [], bookings = []}) => {
                                 })
                             }
 
-                           {
-                                offlineTickets.map((item, index) => {
-                                   return (
-                                    <div key={item.name} className="md:flex rounded border mb-10 gap-3 border-red-400">
-                                        <div className="basis-3/5 p-3">
-                                            <img src={item.image} alt="regular" className="rounded lg:h-64 w-full" />
-                                        </div>
-                                        <div className="basis-2/5 p-3 flex flex-col items-between justify-between">
-                                            <div className="mb-6">
-                                                <p className='font-bold mb-4 text-xl'>
-                                                    1 x {item.name}
-                                                </p>
-        
-                                                <div className="flex justify-between items-center">
-                                                    <p className="">Sub Total</p>
-                                                    <p className='p-1 px-2 rounded bg-white'>
-                                                        NGN 0
-                                                    </p>
-                                                </div>
-                                            </div>   
-                                            <Link href="/reserve" className="inline-block py-2 px-5 border rounded bg-white text-center cursor-pointer">Reserve</Link>
-                                        </div>
-                                    </div> 
-                                   )
-                                })
-                           }
+                        
                         </div>
                     )
                 }
@@ -327,7 +264,7 @@ const Ticket = ({categories = [], bookings = []}) => {
                     {
                         isCheckout
                         ? <div></div>
-                        : <button type='button' className='bg-sky-500 text-white p-2 px-3 rounded w-48' onClick={onContinue}>Continue</button>
+                        : <button type='button' className='bg-sky-500 text-white p-2 px-3 rounded w-48 inline-block bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2' onClick={onContinue}>Continue</button>
                     }
                 </div>
             </div>

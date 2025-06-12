@@ -4,49 +4,38 @@ import { Head, Link } from "@inertiajs/react"
 const Index = () => {
    return (
     <>
-    <Head title="Warri Again?" />
-    <div className="h-screen bg-green-700 cover">
-        <div className="max-w-7xl mx-auto h-full py-5 overlay">
-           
-            <div className="flex items-center p-3 h-full">
-                <div className="lg:basis-2/4">
-                    {/* <p className="text-4xl font-black text-white">
-                        MC Miti Comedy
-                    </p> */}
-
-                    <p className="text-6xl font-black mb-6 text-white">
-                        Warri Again?
-                    </p>
-
-                    <p className="mb-10 text-gray-400">
-                        "The human race has only one really effective weapon and that is laughter."
-                    </p>
-
-                    <div className="mb-10 flex gap-3">
-                        <a href="">
-                            <i className="fab fa-facebook text-sky-300"></i>
-                        </a>
-                        <a href="">
-                            <i className="fab fa-instagram text-pink-500"></i>
-                        </a>
-                        <a href="">
-                            <i className="fab fa-youtube text-red-500"></i>
-                        </a>
-                    </div>
-
-                    <div>
-                        <Link href="/tickets" className="py-3 px-10 bg-white rounded shadow-sm">Get Your Ticket</Link>
-                    </div>
+        <Head title="Comedy Show" />
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col items-center justify-center p-4">
+            <div className="max-w-md w-full bg-white rounded-xl shadow-lg overflow-hidden p-8 text-center">
+                {/* Image */}
+                <div className="mb-8">
+                    <img 
+                        src="/images/mouth/cover.jpg" 
+                        alt="Welcome Illustration"
+                        className="w-full animate-fade-in"
+                    />
                 </div>
-                <div className="hidden lg:flex basis-2/4 items-center justify-center">
-                    <div className="rounded-full bg-white flex items-center justify-center main" style={{width: "500px", height: "500px"}}>
-                        {/* <img src="/images/bg.png" alt="BG" width="300px" height="300px" /> */}
-                    </div>
-                </div>
+
+                {/* Button */}
+                <Link 
+                    href="/tickets" // Change to your desired route
+                    className="inline-block px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                    Get Ticket
+                </Link>
             </div>
+
+            <style>{`
+                .animate-fade-in {
+                    animation: fadeIn 1s ease-in-out;
+                }
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            `}</style>
         </div>
-    </div>
-   </>
+    </>
    )
 }
 
