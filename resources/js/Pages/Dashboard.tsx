@@ -43,12 +43,12 @@ export default function Dashboard({ auth, models, stats = [] }) {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     
-                    <div className='lg:flex gap-3'>
+                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'>
 
                        {
                         stats?.map((item: any, index) => {
                             return (
-                                <div key={index} className='text-gray-900 mx-4 h-44 lg:mx-0 bg-white p-3 basis-1/5 shadow-sm rounded mb-4'>
+                                <div key={index} className='text-gray-900 mx-4 h-44 lg:mx-0 bg-white p-3 basis-1/5 shadow-sm rounded-md'>
                                     <h1 className='font-bold mb-4'>{item.name}</h1>
                                     <div className='flex gap-3 items-center'>
                                         <i className="fas fa-ticket fa-3x text-sky-500"></i>
@@ -60,7 +60,7 @@ export default function Dashboard({ auth, models, stats = [] }) {
                        }
                     </div>
 
-                    <div className="bg-white overflow-hidden shadow-sm mx-4 lg:mx-0 rounded mb-6">
+                    <div className="bg-white overflow-hidden shadow-sm mx-4 lg:mx-0 rounded mt-4 mb-6">
                         <div className='text-end p-3'>
                             <a href="/dashboard/export-qr" className="bg-sky-900 rounded ms-6 px-3 py-2 text-white me-3">Export Data</a>
                             <button className='bg-red-500 text-white py-2 px-5 rounded' onClick={() => setOpen(!isOpen)}>Add User</button>
