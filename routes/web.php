@@ -6,15 +6,23 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', 'PagesController@index');
+Route::get('/table', 'PagesController@table');
 Route::get('/reserve', 'PagesController@reserve');
 Route::get('/tickets', 'PagesController@tickets');
 Route::post('/bookings', 'PaymentController@init');
 Route::get('/bookings/verification/{id}', 'PagesController@booked');
 
+Route::get('/health', 'PagesController@healthCheck');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', 'PagesController@dashboard')->name('dashboard');
     Route::get('/dashboard/export-qr', 'PagesController@exportQr')->name('export');
     Route::post('create-user', 'PaymentController@createUser')->name('users.create');
+    Route::get('/dashboard/bookers', 'PagesController@bookers')->name('dashboard.bookers');
+    Route::get('/dashboard/send-qr/{id}', 'PaymentController@sendQr')->name('dashboard.sendqr');
+
+    // Tables
+    Route::post('tables', 'PagesController@bookTable')->name('tables.create');
     Route::get('/dashboard/bookers', 'PagesController@bookers')->name('dashboard.bookers');
     Route::get('/dashboard/send-qr/{id}', 'PaymentController@sendQr')->name('dashboard.sendqr');
 });

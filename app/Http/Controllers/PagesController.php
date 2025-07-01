@@ -31,7 +31,7 @@ class PagesController extends Controller
 
         $bookingCount = [];
         $categories = Category::where('is_active', true)->get();
-        foreach ($categories as $key => $model) {
+        foreach ($categories as $model) {
             $total = Booking::where('category_id', $model->id)->count();
             $bookingCount[] = [
                 'id' => $model->id,
@@ -43,6 +43,29 @@ class PagesController extends Controller
             'status' => session('status'),
             'categories' => $categories,
             'bookings' => $bookingCount
+        ]);
+    }
+
+    public function bookTable(Request $request) {
+
+        $payload = $request->all();
+        $IDs = $payload['ids'] ?? [];
+        foreach ($IDs as $value) {
+            $model = Table::find($value);
+            $model->booked = true;
+            $model->save();
+        }
+
+        return redirect()->back();
+    }
+
+    public function table() {
+
+        $tables = Table::get()->groupBy('type');
+
+        return Inertia::render('Table', [
+            'status' => session('status'),
+            'tables' => $tables
         ]);
     }
 

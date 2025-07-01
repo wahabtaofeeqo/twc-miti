@@ -14,7 +14,7 @@ const Index = () => {
                         MC Miti Comedy
                     </p> */}
 
-                    <p className="text-6xl font-black mb-6 text-white">
+                    <p className="text-8xl font-black mb-6 text-white">
                         Warri Again?
                     </p>
 
@@ -22,8 +22,9 @@ const Index = () => {
                         "The human race has only one really effective weapon and that is laughter."
                     </p>
 
-                    <div>
+                    <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
                         <Link href="/tickets" className="py-3 px-10 bg-white rounded shadow-sm">Get Your Ticket</Link>
+                        <Link href="/table" className="py-3 px-10 bg-white rounded shadow-sm">View Table</Link>
                     </div>
                 </div>
             </div>
