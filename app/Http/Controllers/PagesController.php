@@ -10,6 +10,7 @@ use Inertia\Response;
 use App\Models\Category;
 use App\Models\Booking;
 use App\Models\Booker;
+use App\Models\Table;
 use App\Exports\BookersExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -30,6 +31,42 @@ class PagesController extends Controller
     public function tickets() {
 
         $bookingCount = [];
+        $offlineTickets = [
+            // [
+            //     "name" => 'Silver',
+            //     "image" => 'images/silver.jpg'
+            // ],
+            // {
+            //     name: 'VIP',
+            //     image: 'images/vip.jpg'
+            // },
+
+            // {
+            //     name: 'Gold',
+            //     image: 'images/gold.jpg'
+            // },
+
+            // {
+            //     name: 'Platinum',
+            //     image: 'images/platinum.jpg'
+            // },
+
+            // {
+            //     name: 'Premium Gold',
+            //     image: 'images/pg.jpg'
+            // },
+
+            // {
+            //     name: 'Premium',
+            //     image: 'images/premium.jpg'
+            // },
+
+            // {
+            //     name: 'Premium Platinum',
+            //     image: 'images/pp.jpg'
+            // }
+        ];
+
         $categories = Category::where('is_active', true)->get();
         foreach ($categories as $model) {
             $total = Booking::where('category_id', $model->id)->count();
@@ -42,7 +79,8 @@ class PagesController extends Controller
         return Inertia::render('Ticket', [
             'status' => session('status'),
             'categories' => $categories,
-            'bookings' => $bookingCount
+            'bookings' => $bookingCount,
+            'offlineTickets' => $offlineTickets
         ]);
     }
 

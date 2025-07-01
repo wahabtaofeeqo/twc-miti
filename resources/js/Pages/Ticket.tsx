@@ -3,45 +3,7 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 
-
-const offlineTickets = [
-    {
-        name: 'Silver',
-        image: 'images/silver.jpg'
-    },
-
-    // {
-    //     name: 'VIP',
-    //     image: 'images/vip.jpg'
-    // },
-
-    {
-        name: 'Gold',
-        image: 'images/gold.jpg'
-    },
-
-    {
-        name: 'Platinum',
-        image: 'images/platinum.jpg'
-    },
-
-    {
-        name: 'Premium Gold',
-        image: 'images/pg.jpg'
-    },
-
-    // {
-    //     name: 'Premium',
-    //     image: 'images/premium.jpg'
-    // },
-
-    {
-        name: 'Premium Platinum',
-        image: 'images/pp.jpg'
-    }
-]
-
-const Ticket = ({categories = [], bookings = []}) => {
+const Ticket = ({categories = [], bookings = [], offlineTickets = []}) => {
     
     const [tickets, setTickets] = useState<any>([]);
     const [isCheckout, setCheckout] = useState(false);
@@ -197,14 +159,6 @@ const Ticket = ({categories = [], bookings = []}) => {
             }
         })
     }
-
-    const isSoldOut = (model: any) => {
-        let obj: any = bookings.find((item: any) => item.id == model.id);
-        // let max = model.name.toLowerCase() == 'vip' ? 100 : 200;
-        // return (obj?.total || 0) >= max
-        // return model.name.toLowerCase() == 'vip';
-        return false;
-    }
     
     useEffect(() => {
         if(tickets.length) {
@@ -219,14 +173,14 @@ const Ticket = ({categories = [], bookings = []}) => {
     return (
         <>
 
-        <Head title={`Warri Again`} />
+        <Head title={`Tickets Categories`} />
         <ToastContainer limit={1} />
 
         <div className="min-h-screen bg-green-700">
             <div className='max-w-7xl mx-auto'>
                 <nav className="px-3 mb-10 py-5 inline-flex">
                     <Link href="/" className="flex items-center font-bold text-xl text-red-400">
-                        Warri Again?
+                        Home
                     </Link>
                 </nav>
 
@@ -279,7 +233,7 @@ const Ticket = ({categories = [], bookings = []}) => {
                                                 </div>
 
                                                 {
-                                                    !isSoldOut(item) ? (
+                                                    !item.is_sold ? (
                                                         <div className="rounded flex justify-end items-center text-end cursor-pointer">
                                                             <i className="fa-solid fa-minus block border bg-white border-e-0 p-1 px-5 rounded-s" onClick={() => decrementTicket(item.id)}></i>
                                                             <i className="fas fa-plus block border bg-white p-1 px-5 rounded-e" onClick={() => incrementTicket(item.id)}></i>
@@ -287,7 +241,6 @@ const Ticket = ({categories = [], bookings = []}) => {
                                                     ) :
                                                     <div className="inline-block py-2 px-5 border rounded bg-red-500 text-white text-center">Sold out</div>
                                                 }
-                                                
                                             </div>
                                         </div>
                                     )
@@ -295,7 +248,7 @@ const Ticket = ({categories = [], bookings = []}) => {
                             }
 
                            {
-                                offlineTickets.map((item, index) => {
+                                offlineTickets.map((item: any, index) => {
                                    return (
                                     <div key={item.name} className="md:flex rounded border mb-10 gap-3 border-red-400">
                                         <div className="basis-3/5 p-3">

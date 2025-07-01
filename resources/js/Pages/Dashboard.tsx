@@ -26,8 +26,7 @@ export default function Dashboard({ auth, models, stats = [] }) {
     
     return (
         <AuthenticatedLayout
-            user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}>
+            user={auth.user}>
             <Head title="Dashboard" />
 
             <Modal show={isOpen} onClose={() => setOpen(false)}>
@@ -42,9 +41,8 @@ export default function Dashboard({ auth, models, stats = [] }) {
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    
-                    <div className='lg:flex gap-3'>
 
+                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
                        {
                         stats?.map((item: any, index) => {
                             return (

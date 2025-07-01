@@ -14,6 +14,10 @@ class Category extends Model
         'name', 'amount', 'image'
     ];
 
+    protected $casts = [
+        "is_sold" => "boolean"
+    ];
+
     /**
      * Get all of the bookings for the Category
      *
