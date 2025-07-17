@@ -189,10 +189,6 @@ const Ticket = ({categories = [], bookings = []}) => {
     }
 
     const isSoldOut = (model: any) => {
-        // let obj: any = bookings.find((item: any) => item.id == model.id);
-        // let max = model.name.toLowerCase() == 'vip' ? 100 : 200;
-        // return (obj?.total || 0) >= max
-        // return model.name.toLowerCase() == 'vip';
         return model.is_sold ?? false;
     }
     
@@ -216,111 +212,121 @@ const Ticket = ({categories = [], bookings = []}) => {
             <div className='max-w-7xl mx-auto'>
                 <nav className="px-3 mb-10 py-5 inline-flex">
                     <Link href="/" className="flex items-center font-bold text-xl text-red-400">
-                        Ushbebe
+                        Home
                     </Link>
                 </nav>
 
-                <header className='mb-5'>
-                    <h1 className='text-4xl font-bold title text-center' style={{color: '#E7EAEE'}}>
-                        {
-                            isCheckout ? 'CHECKOUT' : 'YOUR TICKET'
-                        }
-                    </h1>
-                </header>
-
                 {
-                    isCheckout ?
-                    (
-                        <div className="px-3">
-                            <form onSubmit={submit}>
-                                <CheckoutForm data={data} onChange={onChange} onAdd={addInvitee}
-                                    onUpdated={updateInvitee} invitees={invitees}></CheckoutForm>
+                    categories.length 
+                    ? <>
+                        <header className='mb-5'>
+                            <h1 className='text-4xl font-bold title text-center' style={{color: '#E7EAEE'}}>
+                                {
+                                    isCheckout ? 'CHECKOUT' : 'YOUR TICKET'
+                                }
+                            </h1>
+                        </header>
 
-                                <div className='py-4 text-end flex gap-3 justify-end'>
-                                    <button type='button' disabled={processing} className='bg-gray-100 p-2 px-3 rounded' onClick={() => setCheckout(false)}>Cancel</button>
-                                    <button disabled={processing} className='bg-sky-500 text-white p-2 px-3 rounded w-48'>Pay now</button>
+                        {
+                            isCheckout ?
+                            (
+                                <div className="px-3">
+                                    <form onSubmit={submit}>
+                                        <CheckoutForm data={data} onChange={onChange} onAdd={addInvitee}
+                                            onUpdated={updateInvitee} invitees={invitees}></CheckoutForm>
+
+                                        <div className='py-4 text-end flex gap-3 justify-end'>
+                                            <button type='button' disabled={processing} className='bg-gray-100 p-2 px-3 rounded' onClick={() => setCheckout(false)}>Cancel</button>
+                                            <button disabled={processing} className='bg-sky-500 text-white p-2 px-3 rounded w-48'>Pay now</button>
+                                        </div>
+                                    </form>
+
                                 </div>
-                            </form>
+                            )
+                            :
+                            (
+                                <div className="p-3">
+                                    {
+                                        categories.map((item: any, index: number) => {
+                                            return (
+                                                <div className="md:flex rounded border mb-10 gap-3 border-red-400" key={index}>
+                                                    <div className="basis-3/5 p-3">
+                                                        <img src={item.image} alt="regular" className="rounded lg:h-64 w-full" />
+                                                    </div>
+                                                    <div className="basis-2/5 p-3 flex flex-col items-between justify-between">
+                                                        <div className="mb-6">
+                                                            <p className='font-bold mb-4 text-xl'>
+                                                                {getTicket(item)?.total} x {item.name}
+                                                            </p>
 
-                        </div>
-                    )
-                    :
-                    (
-                        <div className="p-3">
-                            {
-                                categories.map((item: any, index: number) => {
-                                    return (
-                                        <div className="md:flex rounded border mb-10 gap-3 border-red-400" key={index}>
-                                            <div className="basis-3/5 p-3">
-                                                <img src={item.image} alt="regular" className="rounded lg:h-64 w-full" />
-                                            </div>
-                                            <div className="basis-2/5 p-3 flex flex-col items-between justify-between">
-                                                <div className="mb-6">
-                                                    <p className='font-bold mb-4 text-xl'>
-                                                        {getTicket(item)?.total} x {item.name}
-                                                    </p>
+                                                            <div className="flex justify-between items-center">
+                                                                <p className="">Sub Total</p>
+                                                                <p className='p-1 px-2 rounded bg-white'>
+                                                                    NGN {getTicket(item)?.total * item.amount}
+                                                                </p>
+                                                            </div>
+                                                        </div>
 
-                                                    <div className="flex justify-between items-center">
-                                                        <p className="">Sub Total</p>
-                                                        <p className='p-1 px-2 rounded bg-white'>
-                                                            NGN {getTicket(item)?.total * item.amount}
-                                                        </p>
+                                                        {
+                                                            !isSoldOut(item) ? (
+                                                                <div className="rounded flex justify-end items-center text-end cursor-pointer">
+                                                                    <i className="fa-solid fa-minus block border bg-white border-e-0 p-1 px-5 rounded-s" onClick={() => decrementTicket(item.id)}></i>
+                                                                    <i className="fas fa-plus block border bg-white p-1 px-5 rounded-e" onClick={() => incrementTicket(item.id)}></i>
+                                                                </div>
+                                                            ) :
+                                                            <div className="inline-block py-2 px-5 border rounded bg-red-500 text-white text-center">Sold out</div>
+                                                        }
+                                                        
                                                     </div>
                                                 </div>
+                                            )
+                                        })
+                                    }
 
-                                                {
-                                                    !isSoldOut(item) ? (
-                                                        <div className="rounded flex justify-end items-center text-end cursor-pointer">
-                                                            <i className="fa-solid fa-minus block border bg-white border-e-0 p-1 px-5 rounded-s" onClick={() => decrementTicket(item.id)}></i>
-                                                            <i className="fas fa-plus block border bg-white p-1 px-5 rounded-e" onClick={() => incrementTicket(item.id)}></i>
-                                                        </div>
-                                                    ) :
-                                                    <div className="inline-block py-2 px-5 border rounded bg-red-500 text-white text-center">Sold out</div>
-                                                }
-                                                
-                                            </div>
-                                        </div>
-                                    )
-                                })
-                            }
-
-                           {
-                                offlineTickets.map((item: any) => {
-                                   return (
-                                    <div key={item.name} className="md:flex rounded border mb-10 gap-3 border-red-400">
-                                        <div className="basis-3/5 p-3">
-                                            <img src={item.image} alt="regular" className="rounded lg:h-64 w-full" />
-                                        </div>
-                                        <div className="basis-2/5 p-3 flex flex-col items-between justify-between">
-                                            <div className="mb-6">
-                                                <p className='font-bold mb-4 text-xl'>
-                                                    1 x {item.name}
-                                                </p>
-        
-                                                <div className="flex justify-between items-center">
-                                                    <p className="">Sub Total</p>
-                                                    <p className='p-1 px-2 rounded bg-white'>
-                                                        NGN 0
-                                                    </p>
+                                {
+                                        offlineTickets.map((item: any) => {
+                                        return (
+                                            <div key={item.name} className="md:flex rounded border mb-10 gap-3 border-red-400">
+                                                <div className="basis-3/5 p-3">
+                                                    <img src={item.image} alt="regular" className="rounded lg:h-64 w-full" />
                                                 </div>
-                                            </div>   
-                                                <div className="inline-block py-2 px-5 border rounded bg-red-500 text-white text-center">Sold out</div>
-                                            {/* <Link href="/reserve" className="inline-block py-2 px-5 border rounded bg-white text-center cursor-pointer">Reserve</Link> */}
-                                        </div>
-                                    </div> 
-                                   )
-                                })
-                           }
+                                                <div className="basis-2/5 p-3 flex flex-col items-between justify-between">
+                                                    <div className="mb-6">
+                                                        <p className='font-bold mb-4 text-xl'>
+                                                            1 x {item.name}
+                                                        </p>
+                
+                                                        <div className="flex justify-between items-center">
+                                                            <p className="">Sub Total</p>
+                                                            <p className='p-1 px-2 rounded bg-white'>
+                                                                NGN 0
+                                                            </p>
+                                                        </div>
+                                                    </div>   
+                                                        <div className="inline-block py-2 px-5 border rounded bg-red-500 text-white text-center">Sold out</div>
+                                                    {/* <Link href="/reserve" className="inline-block py-2 px-5 border rounded bg-white text-center cursor-pointer">Reserve</Link> */}
+                                                </div>
+                                            </div> 
+                                        )
+                                        })
+                                }
+                                </div>
+                            )
+                        }
+                        <div className='pb-4 text-end px-3'>
+                            {
+                                isCheckout
+                                ? <div></div>
+                                : <button type='button' className='bg-sky-500 text-white p-2 px-3 rounded w-48' onClick={onContinue}>Continue</button>
+                            }
                         </div>
-                    )
+                    </>
+                    : <>
+                        <div>
+                            No Ticket available
+                        </div>
+                    </>
                 }
-                <div className='pb-4 text-end px-3'>
-                    {
-                        isCheckout
-                        ? <div></div>
-                        : <button type='button' className='bg-sky-500 text-white p-2 px-3 rounded w-48' onClick={onContinue}>Continue</button>
-                    }
-                </div>
             </div>
         </div>
         </>

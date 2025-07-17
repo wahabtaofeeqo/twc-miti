@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->double('amount')->default(0);
             $table->string('image')->nullable();
+            $table->boolean('is_active')->nullable()->default(false);
             $table->timestamps();
         });
     }

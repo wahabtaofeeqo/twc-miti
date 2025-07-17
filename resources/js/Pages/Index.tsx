@@ -5,20 +5,17 @@ const Index = () => {
    return (
     <>
     <Head title="Home" />
-    <div className="h-screen bg-green-700 cover">
+    <div className="h-screen bg-green-700 covr">
         <div className="max-w-7xl mx-auto h-full py-5 overlay">
            
             <div className="flex items-center p-3 h-full">
                 <div className="lg:basis-2/4 mx-auto">
-                    {/* <p className="text-4xl font-black text-white">
-                        MC Miti Comedy
-                    </p> */}
-
+                   
                     <p className="font-bold text-white">
                         Chronicle of
                     </p>
 
-                    <p className="text-8xl font-black mb-6 text-white">
+                    <p className="text-4xl lg:text-8xl font-black mb-6 text-white">
                         Ushbebe
                     </p>
 

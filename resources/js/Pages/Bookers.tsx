@@ -5,23 +5,12 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 const Bookers = ({ auth, models}) => {
     return (
         <>
-        <AuthenticatedLayout user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}>
+        <AuthenticatedLayout user={auth.user}>
             <Head title="Bookers " />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    
-                    <div className=''>
-                        <div className='text-gray-900 mx-4 h-44 lg:mx-0 bg-white p-3 basis-1/5 shadow-sm rounded mb-4'>
-                            <h1 className='font-bold mb-4'>Bookers</h1>
-                            <div className='flex gap-3 items-center'>
-                                <i className="fas fa-ticket fa-3x text-sky-500"></i>
-                                <p className='text-2xl'>{models.total}</p>
-                            </div>
-                        </div>
-                    </div>
-
+                
                     <div className="bg-white overflow-hidden shadow-sm mx-4 lg:mx-0 rounded mb-6">
                         <div className="relative overflow-x-auto">
                             <table className="w-full text-sm text-left text-gray-500">

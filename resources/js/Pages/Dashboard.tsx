@@ -68,8 +68,7 @@ export default function Dashboard({ auth, models, stats = [], tables = [] }) {
 
     return (
         <AuthenticatedLayout
-            user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}>
+            user={auth.user}>
             <Head title="Dashboard" />
 
             <Modal show={isOpen} onClose={() => setOpen(false)}>
@@ -147,7 +146,7 @@ export default function Dashboard({ auth, models, stats = [], tables = [] }) {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     
-                    <div className='lg:flex gap-3 flex-wrap'>
+                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3'>
 
                        {
                         stats?.map((item: any, index) => {
@@ -168,7 +167,7 @@ export default function Dashboard({ auth, models, stats = [], tables = [] }) {
                        <div className='flex justify-end items-center p-3'>
                             {/* <button className='bg-green-400 text-white py-2 px-5 rounded' onClick={() => setToggleTableModal(!isTableModal)}>Book Table</button> */}
                             <div className=''>
-                                <a href="/dashboard/export-qr" className="bg-sky-900 rounded ms-6 px-3 py-2 text-white me-3">Export Data</a>
+                                <a href="/dashboard/export-qr" className="bg-sky-900 rounded ms-6 px-3 text-sm py-2 text-white me-3">Export Data</a>
                                 {/* <button className='bg-red-500 text-white py-2 px-5 rounded' onClick={() => setOpen(!isOpen)}>Add User</button> */}
                             </div>
                        </div>
