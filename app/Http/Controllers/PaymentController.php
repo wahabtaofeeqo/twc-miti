@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Str;
-use Http;
-use Hash;
-use Auth;
-use Inertia\Inertia;
-use App\Models\User;
-use App\Models\Booker;
-use App\Models\Payment;
-use App\Models\Booking;
-use Illuminate\Http\Request;
-use Mail;
 use App\Mail\QrCode;
+use App\Models\Booker;
+use App\Models\Booking;
 use App\Models\Category;
-use App\Models\Ticket;
 use App\Models\Invitee;
+use App\Models\Payment;
+use App\Models\Ticket;
+use App\Models\User;
+use Auth;
+use DB;
+use Http;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Mail;
+use Str;
 
 class PaymentController extends Controller
 {
@@ -30,12 +29,13 @@ class PaymentController extends Controller
         $category = Category::first();
     }
 
-    private function createPayment($amount, $email, $meta) {
+    private function createPayment($amount, $email, $meta)
+    {
         try {
             $randomUUID = Str::uuid();
             $baseUrl = config('app.url');
-            $reference = "FF2024_" . Str::random(10) . time();
-            $url = "https://api.paystack.co/transaction/initialize";
+            $reference = 'FF2024_'.Str::random(10).time();
+            $url = 'https://api.paystack.co/transaction/initialize';
 
             //
             $response = Http::withToken(config('paystack.sec'))->post($url, [
@@ -44,12 +44,13 @@ class PaymentController extends Controller
                 'currency' => 'NGN',
                 'email' => $email,
                 'metadata' => $meta,
-                'callback_url' => $baseUrl . '/bookings/verification/' . $randomUUID
+                'callback_url' => $baseUrl.'/bookings/verification/'.$randomUUID,
             ]);
 
-            if ($response->successful()) return $response->object()->data;
-        }
-        catch (\Exception $e) {
+            if ($response->successful()) {
+                return $response->object()->data;
+            }
+        } catch (\Exception $e) {
             info($e->getMessage());
         }
 
@@ -78,23 +79,23 @@ class PaymentController extends Controller
         $amount = $input['amount'];
 
         // Create Booker Model
-        $name = $input['firstname'] . ' ' . $input['lastname'];
+        $name = $input['firstname'].' '.$input['lastname'];
         $booker = Booker::create([
             'name' => $name,
             'is_buyer' => true,
             'email' => $input['email'],
             'phone' => $input['phone'],
-         ]);
+        ]);
 
         $customer = [
             'name' => $name,
             'email' => $input['email'],
-            'phone_number' => $input['phone']
+            'phone_number' => $input['phone'],
         ];
 
-        $meta =  [
+        $meta = [
             'booker_id' => $booker->id,
-            'quantity' => $input['quantity']
+            'quantity' => $input['quantity'],
         ];
 
         // Save Invitees and Tickets
@@ -116,11 +117,11 @@ class PaymentController extends Controller
 
         // Store Tickets
         foreach ($tickets as $key => $value) {
-            if($value['total']) {
+            if ($value['total']) {
                 Ticket::create([
                     'total' => $value['total'],
                     'booker_id' => $booker->id,
-                    'category_id' => $value['model']['id']
+                    'category_id' => $value['model']['id'],
                 ]);
             }
         }
@@ -128,8 +129,7 @@ class PaymentController extends Controller
         $response = $this->createPayment($amount, $input['email'], $meta);
         if ($response) {
             return Inertia::location($response->authorization_url);
-        }
-        else {
+        } else {
             return redirect()->back()->withErrors(['message' => 'Operation not successful. Please try again.']);
         }
     }
@@ -161,8 +161,9 @@ class PaymentController extends Controller
                         'tx_ref' => $data->reference,
                     ])->first();
 
-                    if($payment)
+                    if ($payment) {
                         return $this->errResponse('Payment has been previously verified');
+                    }
 
                     //
                     DB::beginTransaction();
@@ -170,18 +171,18 @@ class PaymentController extends Controller
                     $model = null;
                     $code = $this->genCode();
 
-                   // Get Tickets
-                   $tickets = Ticket::where('booker_id', $booker->id)->get();
-                   $payload = [
-                       'code' => $code,
-                       'confirmed' => true,
-                       'booker_id' => $booker->id,
-                       'category_id' => $tickets[0]->category->id
-                   ];
+                    // Get Tickets
+                    $tickets = Ticket::where('booker_id', $booker->id)->get();
+                    $payload = [
+                        'code' => $code,
+                        'confirmed' => true,
+                        'booker_id' => $booker->id,
+                        'category_id' => $tickets[0]->category->id,
+                    ];
 
-                   //
-                   $model = Booking::create($payload);
-                   $this->sendTickets($model);
+                    //
+                    $model = Booking::create($payload);
+                    $this->sendTickets($model);
 
                     // Save payment
                     Payment::create([
@@ -201,35 +202,39 @@ class PaymentController extends Controller
                     return $this->okResponse('Verified successfully', []);
                 }
             }
+
             return $this->errResponse('Operation not succeeded');
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollback();
             info($e->getMessage());
+
             return $this->errResponse('Payment could not be verified', 500);
         }
     }
 
-    private function sendMail($user, $category, $rand) {
+    private function sendMail($user, $category, $rand)
+    {
         try {
-            $path = public_path('qrcode/' . $user->email);
-            if(!file_exists($path)) mkdir($path, 0755, true);
+            $path = public_path('qrcode/'.$user->email);
+            if (! file_exists($path)) {
+                mkdir($path, 0755, true);
+            }
 
-            $file = "qrcode.png";
-            $filename = $path . "/" . $file;
+            $file = 'qrcode.png';
+            $filename = $path.'/'.$file;
 
             \QrCode::color(255, 0, 127)->format('png')
                 ->size(500)->generate($rand, $filename);
 
             //
             Mail::to($user)->send(new QrCode($user, $file, $category));
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             info($e->getMessage());
         }
     }
 
-    private function sendTickets($booking) {
+    private function sendTickets($booking)
+    {
 
         // Send Mail to Ticket buyer
         $code = $booking->code;
@@ -245,17 +250,16 @@ class PaymentController extends Controller
         // Prep total Ticket Category
         $categories = [];
         foreach ($tickets as $key => $ticket) {
-            if($ticket->total == 1) {
+            if ($ticket->total == 1) {
                 $categories[] = $ticket->category;
-            }
-            else {
-                for ($i=0; $i < $ticket->total; $i++) { 
+            } else {
+                for ($i = 0; $i < $ticket->total; $i++) {
                     $categories[] = $ticket->category;
                 }
             }
         }
 
-        // Remove the first Ticket from the array 
+        // Remove the first Ticket from the array
         // It belongs to the real booker
         array_splice($categories, 0, 1);
 
@@ -279,13 +283,16 @@ class PaymentController extends Controller
         }
     }
 
-    private function genCode() {
+    private function genCode()
+    {
         $total = Booking::count();
-        return str_pad(strval($total + 1), 4, "0", STR_PAD_LEFT);
+
+        return str_pad(strval($total + 1), 4, '0', STR_PAD_LEFT);
     }
 
-    public function sendQR(Request $request) {
-        
+    public function sendQR(Request $request)
+    {
+
         $IDs = $request->ids ?? [];
         foreach ($IDs as $id) {
             $this->sendTickets(Booking::find($id));
@@ -300,12 +307,12 @@ class PaymentController extends Controller
         $code = $this->genCode();
         $booker = Booker::find($id);
         $tickets = Ticket::where('booker_id', $booker->id)->get();
-        
+
         $payload = [
             'code' => $code,
             'confirmed' => true,
             'booker_id' => $booker->id,
-            'category_id' => $tickets[0]->category->id
+            'category_id' => $tickets[0]->category->id,
         ];
 
         //
@@ -320,7 +327,7 @@ class PaymentController extends Controller
     }
 
     // function createUser(Request $request) {
-        
+
     //     $input = $request->all();
     //     $request->validate([
     //         'firstname' => 'required|string',

@@ -2,40 +2,15 @@ import CheckoutForm from "@/Components/CheckoutForm";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-
-
-const offlineTickets = [
-    // {
-    //     name: 'Silver',
-    //     image: 'images/silver.jpg'
-    // },
-
-    // {
-    //     name: 'Gold',
-    //     image: 'images/gold.jpg'
-    // },
-
-    // {
-    //     name: 'Platinum',
-    //     image: 'images/platinum.jpg'
-    // },
-
-    // {
-    //     name: 'Premium Gold',
-    //     image: 'images/pg.jpg'
-    // },
-
-    // {
-    //     name: 'Premium Platinum',
-    //     image: 'images/pp.jpg'
-    // }
-]
+import { motion } from "framer-motion";
+import DangerButton from "@/Components/DangerButton";
 
 const Ticket = ({categories = [], bookings = []}) => {
     
     const [tickets, setTickets] = useState<any>([]);
     const [isCheckout, setCheckout] = useState(false);
     const [invitees, setInvitees] = useState<any>([]);
+    const [errorMessage, setMessage] = useState('');
 
     const { data, setData, post, processing, errors, reset } = useForm({
         firstname: '',
@@ -165,12 +140,6 @@ const Ticket = ({categories = [], bookings = []}) => {
             if(!isValid) break;
         }
 
-        // let totalTicket = getTicketCount() - 1;        
-        // if(totalTicket != invitees.length) {
-        //     toast.error('Users and Tickets selected must be equal');
-        //     return;
-        // }
-
         if(!isValid) {
             toast.error('Kindly provide your invitees details!');
             return;
@@ -179,21 +148,11 @@ const Ticket = ({categories = [], bookings = []}) => {
         post(`/bookings`, {
             onSuccess: () => {
                 reset();
-                // onCreated(true)
             },
             onError: (error) => {
-                console.log(error);
-                // setMessage(error?.message)
+                setMessage(error?.message)
             }
         })
-    }
-
-    const isSoldOut = (model: any) => {
-        let obj: any = bookings.find((item: any) => item.id == model.id);
-        // let max = model.name.toLowerCase() == 'vip' ? 100 : 200;
-        // return (obj?.total || 0) >= max
-        // return model.name.toLowerCase() == 'vip';
-        return false;
     }
     
     useEffect(() => {
@@ -212,33 +171,28 @@ const Ticket = ({categories = [], bookings = []}) => {
         <Head title={`FunFiesta`} />
         <ToastContainer limit={1} />
 
-        <div className="min-h-screen bg-sky-700">
+        <div className="min-h-screen bg-gradient-to-b from-sky-900 to-blue-700">
             <div className='max-w-7xl mx-auto'>
                 <nav className="px-3 mb-10 py-5 inline-flex">
                     <Link href="/" className="flex items-center font-bold text-3xl text-pink-500">
-                       FunFiesta
+                       Home
                     </Link>
                 </nav>
-
-                <header className='mb-5'>
-                    <h1 className='text-4xl font-bold title text-center' style={{color: '#E7EAEE'}}>
-                        {
-                            isCheckout ? 'CHECKOUT' : 'YOUR TICKET'
-                        }
-                    </h1>
-                </header>
 
                 {
                     isCheckout ?
                     (
-                        <div className="px-3">
-                            <form onSubmit={submit}>
+                        <div className="h-full flex items-center justify-center p-6 max-w-3xl mx-auto">
+                            <form onSubmit={submit} className="w-full">
                                 <CheckoutForm data={data} onChange={onChange} onAdd={addInvitee}
                                     onUpdated={updateInvitee} invitees={invitees}></CheckoutForm>
 
+                                {
+                                    errorMessage ? <p className="text-red-500">{errorMessage}</p> : ''
+                                }
                                 <div className='py-4 text-end flex gap-3 justify-end'>
                                     <button type='button' disabled={processing} className='bg-gray-100 p-2 px-3 rounded' onClick={() => setCheckout(false)}>Cancel</button>
-                                    <button disabled={processing} className='bg-sky-500 text-white p-2 px-3 rounded w-48'>Pay now</button>
+                                    <button disabled={processing} className='bg-pink-600 hover:bg-pink-700 text-white font-semibold px-6 rounded w-48'>Pay now</button>
                                 </div>
                             </form>
 
@@ -247,79 +201,94 @@ const Ticket = ({categories = [], bookings = []}) => {
                     :
                     (
                         <div className="p-3">
-                            {
-                                categories.map((item: any, index: number) => {
-                                    return (
-                                        <div className="md:flex rounded border mb-10 gap-3 border-red-400" key={index}>
-                                            <div className="basis-3/5 p-3 h-96">
-                                                <img src={item.image} alt="regular" className="rounded h-full w-full" />
+                            <div className=" text-white px-6 py-12">
+                                <div className="text-center mb-10">
+                                    <motion.h1
+                                        initial={{ opacity: 0, y: -30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.6 }}
+                                        className="text-5xl font-extrabold tracking-wide text-white"
+                                    >
+                                        Your Tickets
+                                    </motion.h1>
+                                    <p className="text-blue-200 mt-2">Choose your preferred ticket type below</p>
+                                </div>
+                        
+                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                                    {categories.map((category: any) => (
+                                        <motion.div
+                                        key={category.id}
+                                        whileHover={{ scale: 1.03 }}
+                                        className="flex flex-col"
+                                        >
+                                        <div className="p-3 rounded-md bg-white/10 backdrop-blur-md border-white/20 text-white shadow-lg">
+                                            <div>
+                                                <img
+                                                    src={category.image}
+                                                    alt={category.name}
+                                                    className="w-full h-52 object-cover rounded-t-lg"
+                                                />
+                                                <h4 className="text-2xl font-semibold mt-3">
+                                                    {category.name}
+                                                </h4>
                                             </div>
-                                            <div className="basis-2/5 p-3 flex flex-col items-between justify-between">
-                                                <div className="mb-6">
-                                                    <p className='font-bold mb-4 text-xl'>
-                                                        {getTicket(item)?.total} x {item.name}
-                                                    </p>
 
-                                                    <div className="flex justify-between items-center">
-                                                        <p className="">Sub Total</p>
-                                                        <p className='p-1 px-2 rounded bg-white'>
-                                                            NGN {getTicket(item)?.total * item.amount}
-                                                        </p>
-                                                    </div>
-                                                </div>
+                                            <div>
+                                                <p className="text-sm text-blue-200 mb-3">{category.description}</p>
+                                                <p className="text-lg font-bold">₦{category.amount.toLocaleString()}</p>
+                                                <div className="flex items-center justify-between mt-4">
+                                                    {
+                                                        category.is_sold 
+                                                        ? <span className="p-2 py-1 rounded-lg text-sm inline-block bg-red-500">Sold out</span>
+                                                        : 
+                                                        <div className="flex items-center space-x-3">
+                                                            <button className="w-7 h-7 bg-white rounded-md text-black"
+                                                                onClick={() => decrementTicket(category.id)}
+                                                            >
+                                                                −
+                                                            </button>
 
-                                                {
-                                                    !isSoldOut(item) ? (
-                                                        <div className="rounded flex justify-end items-center text-end cursor-pointer">
-                                                            <i className="fa-solid fa-minus block border bg-white border-e-0 p-1 px-5 rounded-s" onClick={() => decrementTicket(item.id)}></i>
-                                                            <i className="fas fa-plus block border bg-white p-1 px-5 rounded-e" onClick={() => incrementTicket(item.id)}></i>
+                                                            <span className="text-xl font-semibold">
+                                                            {getTicket(category)?.total ?? 0}
+                                                            </span>
+
+                                                            <button className="w-7 h-7 bg-white rounded-md text-black"
+                                                                onClick={() => incrementTicket(category.id)}
+                                                            >
+                                                                +
+                                                            </button>
                                                         </div>
-                                                    ) :
-                                                    <div className="inline-block py-2 px-5 border rounded bg-red-500 text-white text-center">Sold out</div>
-                                                }
-                                                
-                                            </div>
-                                        </div>
-                                    )
-                                })
-                            }
+                                                    }
 
-                           {
-                                offlineTickets.map((item: any) => {
-                                   return (
-                                    <div key={item.name} className="md:flex rounded border mb-10 gap-3 border-red-400">
-                                        <div className="basis-3/5 p-3">
-                                            <img src={item.image} alt="regular" className="rounded lg:h-64 w-full" />
-                                        </div>
-                                        <div className="basis-2/5 p-3 flex flex-col items-between justify-between">
-                                            <div className="mb-6">
-                                                <p className='font-bold mb-4 text-xl'>
-                                                    1 x {item.name}
-                                                </p>
-        
-                                                <div className="flex justify-between items-center">
-                                                    <p className="">Sub Total</p>
-                                                    <p className='p-1 px-2 rounded bg-white'>
-                                                        NGN 0
+                                                    <p className="text-sm text-blue-200">
+                                                        Subtotal: ₦ {getTicket(category)?.total * category.amount}
                                                     </p>
                                                 </div>
-                                            </div>   
-                                            <Link href="/reserve" className="inline-block py-2 px-5 border rounded bg-white text-center cursor-pointer">Reserve</Link>
+                                            </div>
                                         </div>
-                                    </div> 
-                                   )
-                                })
-                           }
+                                        </motion.div>
+                                    ))}
+                                </div>
+                        
+                                <motion.div
+                                    initial={{ opacity: 0, y: 30 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: 0.3 }}
+                                    className="mt-12 text-center"
+                                    >
+                                    <h3 className="text-2xl font-bold mb-4">
+                                        Total: ₦ {getTotal()}
+                                    </h3>
+                                    <DangerButton onClick={onContinue}
+                                        className="bg-pink-600 hover:bg-pink-700 text-white font-semibold px-8"
+                                    >
+                                        Proceed to Checkout
+                                    </DangerButton>
+                                </motion.div>
+                            </div>
                         </div>
                     )
                 }
-                <div className='pb-4 text-end px-3'>
-                    {
-                        isCheckout
-                        ? <div></div>
-                        : <button type='button' className='bg-pink-500 text-white p-2 px-3 rounded w-48' onClick={onContinue}>Continue</button>
-                    }
-                </div>
             </div>
         </div>
         </>

@@ -1,137 +1,88 @@
-import { useState } from "react";
-import InputError from "./InputError";
 import InputLabel from "./InputLabel";
 import TextInput from "./TextInput";
+import { motion } from "framer-motion";
 
 const CheckoutForm = ({data, onChange, onAdd, onUpdated, invitees = []}) => {
 
-    const [isOpen, setOpen] = useState(false);
-    const update = (index: any, e: any) => {
-        let item: any = invitees[index];
-        item[e.target.name] = e.target.value;
-        onUpdated(index, item);
-    }
-
     return (
         <>
-        <div className='mb-10'>
-            <h4 className="font-bold p-2 text-white">Personal Information</h4>
-            <hr />
-            <p className="text-gray-400 p-2">Please complete checkout to secure your ticket.</p>
-        </div>
-
-        <div>
-            <div className="md:flex mb-4">
-                <div className="basis-2/4 mb-4 pe-3">
-                    <InputLabel htmlFor="firstname" className="font-bold text-gray-900" value="Firstname" />
-
-                    <TextInput
-                        id="firstname"
-                        name="firstname"
-                        value={data.firstname}
-                        autoComplete="firstname"
-                        onChange={onChange}
-                        className="w-full rounded-2xl outline-none border-gray-200"
-                        required
-                    />
+        <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            >
+            <div className="p-3 rounded-lg bg-white/10 backdrop-blur-lg border-white/20 text-white shadow-2xl">
+                <div className="border-b border-white/20">
+                    <h4 className="text-3xl font-bold text-center text-white">
+                        Checkout Information
+                    </h4>
+                    <p className="text-center text-blue-200 mt-2">
+                        Please complete your details to secure your ticket
+                    </p>
                 </div>
-
-                <div className="basis-2/4 pe-3 md:pe-0">
-                    <InputLabel htmlFor="lastname" className="font-bold text-gray-900" value="Lastname" />
-
-                    <TextInput
-                        id="lastname"
-                        name="lastname"
-                        value={data.lastname}
-                        autoComplete="lastname"
-                        onChange={onChange}
-                        className="w-full rounded-2xl outline-none border-gray-200"
-                        required
-                    />
-                </div>
-            </div>
-
-            <div className="md:flex mb-4">
-                <div className="basis-2/4 mb-4 pe-3">
-                    <InputLabel htmlFor="email" className="font-bold text-gray-900" value="Email" />
-                    <TextInput
-                        id="email"
-                        name="email"
-                        value={data.email}
-                        autoComplete="email"
-                        type="email"
-                        onChange={onChange}
-                        className="w-full rounded-2xl outline-none border-gray-200"
-                        required
-                    />
-                </div>
-
-                <div className="basis-2/4 pe-3 md:pe-0">
-                    <InputLabel htmlFor="phone" className="font-bold text-gray-900" value="Phone Number" />
-                    <TextInput
-                        id="phone"
-                        name="phone"
-                        value={data.phone}
-                        autoComplete="phone"
-                        onChange={onChange}
-                        className="w-full rounded-2xl outline-none border-gray-200"
-                        required
-                    />
-                </div>
-            </div>
-
-            {/* Invitees */}
-            {/* <div className="flex justify-between items-center mb-4">
-                <p className="caption">Invitees' Information</p>
-                <div onClick={() => setOpen(!isOpen)} className="cursor-pointer">
-                    {
-                        isOpen ? <i className="fa-solid fa-arrow-up"></i> : <i className="fa-solid fa-arrow-down"></i>
-                    }
-                </div>
-            </div> */}
-
-            {
-                isOpen ?
-                <div className="text-center py-3 text-sky-600">
-                    <i className="fa-solid fa-circle-plus cursor-pointer" onClick={onAdd}></i>
-                </div> : ''
-            }
-
-            {
-                invitees.map((item: any, index) => {
-                    return (
-                        <>
-                            <div className="md:flex mb-4" key={index}>
-                                <div className="basis-2/4 mb-4 pe-3">
-                                    <InputLabel htmlFor="Name" className="font-bold" value="Name" />
-                                    <TextInput
-                                        id={`invitee-name-${index + 1}`}
-                                        name="name"
-                                        value={item.name}
-                                        onChange={(e) => update(index, e)}
-                                        className="w-full rounded-2xl outline-none border-gray-200"
-                                        required
-                                    />
-                                </div>
-
-                                <div className="basis-2/4 pe-3 md:pe-0">
-                                    <InputLabel htmlFor="Email" className="font-bold" value="Email" />
-
-                                    <TextInput
-                                        id={`invitee-email-${index + 1}`}
-                                        name="email"
-                                        value={item.email}
-                                        onChange={(e) => update(index, e)}
-                                        className="w-full rounded-2xl outline-none border-gray-200"
-                                        required
-                                    />
-                                </div>
+    
+                <div className="p-8">
+                    <div className="space-y-6">
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <InputLabel htmlFor="firstname" className="text-white">First Name</InputLabel>
+                                <TextInput
+                                id="firstname"
+                                name="firstname"
+                                required
+                                value={data.firstname}
+                                onChange={onChange}
+                                placeholder="Enter your first name"
+                                className="bg-white/20 text-white placeholder-blue-200 border-white/30 focus:ring-2 focus:ring-pink-500 w-full"
+                                />
                             </div>
-                        </>
-                    )
-                })
-            }
-        </div>
+        
+                            <div>
+                                <InputLabel htmlFor="lastname" className="text-white">Last Name</InputLabel>
+                                <TextInput
+                                id="lastname"
+                                name="lastname"
+                                required
+                                value={data.lastname}
+                                onChange={onChange}
+                                placeholder="Enter your last name"
+                                className="bg-white/20 text-white placeholder-blue-200 border-white/30 focus:ring-2 focus:ring-pink-500 w-full"
+                                />
+                            </div>
+                        </div>
+        
+                        <div className="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <InputLabel htmlFor="email" className="text-white">Email</InputLabel>
+                                <TextInput
+                                id="email"
+                                type="email"
+                                name="email"
+                                required
+                                value={data.email}
+                                onChange={onChange}
+                                placeholder="Enter your email address"
+                                className="bg-white/20 text-white placeholder-blue-200 border-white/30 focus:ring-2 focus:ring-pink-500 w-full"
+                                />
+                            </div>
+        
+                            <div>
+                                <InputLabel htmlFor="phone" className="text-white">Phone Number</InputLabel>
+                                <TextInput
+                                id="phone"
+                                name="phone"
+                                required
+                                value={data.phone}
+                                onChange={onChange}
+                                placeholder="Enter your phone number"
+                                className="bg-white/20 text-white placeholder-blue-200 border-white/30 focus:ring-2 focus:ring-pink-500 w-full"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </motion.div>
         </>
     )
 }
